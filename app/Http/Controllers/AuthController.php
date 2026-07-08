@@ -29,12 +29,18 @@ class AuthController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6',
             'phone' => 'nullable|max:20'
+        ], [
+            // Personalizamos los mensajes aquí:
+            'email.unique' => 'Este correo electrónico ya está registrado',
+            'email.email' => 'Por favor, introduce una dirección de correo válida.',
+            'password.min' => 'La contraseña es demasiado corta (mínimo 6 caracteres).',
         ]);
 
         $name = $request->input('name');
         $email = $request->input('email');
         $password = $request->input('password');
         $phone = $request->input('phone');
+
 
         User::create([
             'name' => $name,
@@ -48,38 +54,45 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-
-        // Validar los datos recibidos
+        // 1. Validar el formato de los datos recibidos
         $request->validate([
             'email' => 'required|email',
-            'password' => 'required'
+            'password' => 'required|min:6'
+        ],[
+            'password.min' => 'La contraseña es demasiado corta (mínimo 6 caracteres).',
         ]);
 
-        //Recoger los datos del formulario
+        // Recoger los datos del formulario
         $email = $request->input('email');
         $password = $request->input('password');
 
-        // Buscar el usuario por email
+        // 2. Buscar el usuario por email
         $user = User::where('email', $email)->first();
 
         // Comprobar que el usuario existe
         if (!$user) {
-            return back()->with('error', 'El usuario no existe.');
+            // Vinculamos el error directamente al campo 'email'
+            return back()
+                ->withErrors(['error-email' => 'Este correo electrónico no está registrado.'])
+                ->withInput(); // Esto mantiene el email escrito para que no tengan que volver a ponerlo
         }
 
-        // Comprobar que la contraseña es correcta
+        // 3. Comprobar que la contraseña es correcta
         if (!Hash::check($password, $user->password)) {
-            return back()->with('error', 'La contraseña es incorrecta.');
+            // Vinculamos el error directamente al campo 'password'
+            return back()
+                ->withErrors(['password' => 'La contraseña introducida es incorrecta.'])
+                ->withInput();
         }
 
-        // Iniciar sesión
+        // 4. Iniciar sesión si todo está correcto
         Auth::login($user);
 
         // Redirigir a la página principal
         return redirect('/app');
     }
 
-    // funcion para retornar la vista login
+    // funcion para retornar la vista de la app
     public function showApp()
     {
         return view('app.layout');

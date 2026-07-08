@@ -141,8 +141,15 @@
         .register-text a:hover {
             opacity: 0.8;
         }
+
+        .error {
+            color: #ff4d4f;
+            font-size: 13px;
+            margin-top: 6px;
+        }
     </style>
 </head>
+
 
 <body>
 
@@ -159,17 +166,34 @@
             <div class="form-group">
                 <x-input-auth
                     type="email"
+                    id="email"
                     name="email"
                     placeholder="Email *"
+                    value="{{ old('email') }}"
                     required />
+
+                <p id="email-error" class="error">
+                    @error('error-email')
+                    {{ $message }}
+                    @enderror
+                </p>
+
             </div>
 
             <div class="form-group">
                 <x-input-auth
                     type="password"
+                    id="password"
                     name="password"
                     placeholder="Password *"
                     required />
+
+                <p id="password-error" class="error">
+                    @error('password')
+                    {{ $message }}
+                    @enderror
+                </p>
+
             </div>
 
             <div class="remember-container">
@@ -191,5 +215,7 @@
     </div>
 
 </body>
+
+
 
 </html>
