@@ -125,6 +125,13 @@
         .login-text a:hover {
             opacity: 0.8;
         }
+
+
+        .error {
+            color: #ff4d4f;
+            font-size: 13px;
+            margin-top: 6px;
+        }
     </style>
 </head>
 
@@ -170,7 +177,7 @@
                     placeholder="Password *"
                     required />
 
-                <p>
+                <p id="password-error" class="error">
                     @error('password')
                     {{ $message }}
                     @enderror
