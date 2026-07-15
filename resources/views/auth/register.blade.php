@@ -152,6 +152,7 @@
                     type="text"
                     name="name"
                     placeholder="Nombre *"
+                    value="{{ old('name') }}"
                     required />
             </div>
 
@@ -160,6 +161,7 @@
                     type="email"
                     name="email"
                     placeholder="Email *"
+                    value="{{ old('email') }}"
                     required />
 
 
@@ -188,12 +190,13 @@
                 <x-input-auth
                     type="tel"
                     name="phone"
+                    value="{{ old('phone') }}"
                     placeholder="Número de teléfono" />
             </div>
 
             <div class="remember-container">
                 <input type="checkbox" id="remember" name="remember">
-                <label for="remember">Remember me</label>
+                <label for="remember">Recuerdame</label>
             </div>
 
 

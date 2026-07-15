@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnuncioController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,5 +19,8 @@ Route::get('/register', [AuthController::class, 'showRegister']);
 //Ruta para crear el usuario
 Route::post('/register', [AuthController::class, 'createUser']);
 
-
+// redirigir a la app principal
 Route::get('/app', [AuthController::class, 'showApp']);
+
+// redirigir al anuncio
+Route::get('/app/anuncio/{id}', [AnuncioController::class, 'showAnuncio']);

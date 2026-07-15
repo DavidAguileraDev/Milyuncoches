@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Anuncio;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -58,7 +59,7 @@ class AuthController extends Controller
         $request->validate([
             'email' => 'required|email',
             'password' => 'required|min:6'
-        ],[
+        ], [
             'password.min' => 'La contraseña es demasiado corta (mínimo 6 caracteres).',
         ]);
 
@@ -85,8 +86,11 @@ class AuthController extends Controller
                 ->withInput();
         }
 
-        // 4. Iniciar sesión si todo está correcto
-        Auth::login($user);
+        // ¿Ha marcado "Remember me"?
+        $remember = $request->has('remember');
+
+        // Iniciar sesión
+        Auth::login($user, $remember);
 
         // Redirigir a la página principal
         return redirect('/app');
@@ -95,6 +99,11 @@ class AuthController extends Controller
     // funcion para retornar la vista de la app
     public function showApp()
     {
-        return view('app.layout');
+
+        $user = Auth::user();
+        
+        $anuncios = Anuncio::all();
+
+        return view('app.layout', compact('user', 'anuncios'));
     }
 }

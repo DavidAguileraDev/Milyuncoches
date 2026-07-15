@@ -198,7 +198,7 @@
 
             <div class="remember-container">
                 <input type="checkbox" id="remember" name="remember">
-                <label for="remember">Remember me</label>
+                <label for="remember">Recuerdame</label>
             </div>
 
             <a href="#" class="password-help">Password Help?</a>
@@ -209,8 +209,8 @@
         </form>
 
         <div class="register-text">
-            Don't have an account?<br>
-            <a href="/register">Create One Now</a>
+            ¿No tienes una cuenta?<br>
+            <a href="/register">Crea una cuenta!</a>
         </div>
     </div>
 
