@@ -210,8 +210,8 @@
 
     <!-- MENÚ SUPERIOR -->
     <header class="top-panel">
-        <a href="/" class="logo">Mil y un coches.</a>
-        <a href="/" class="back-link">← Volver al listado</a>
+        <a href="/app" class="logo">Mil y un coches.</a>
+        <a href="/app" class="back-link">← Volver al listado</a>
     </header>
 
     <!-- CUERPO DEL DETALLE -->

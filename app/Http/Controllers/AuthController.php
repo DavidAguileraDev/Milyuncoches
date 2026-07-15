@@ -101,9 +101,55 @@ class AuthController extends Controller
     {
 
         $user = Auth::user();
-        
+
         $anuncios = Anuncio::all();
 
         return view('app.layout', compact('user', 'anuncios'));
+    }
+
+
+    // funcion para retornar la vista del perfil del usuario
+    public function showPerfil()
+    {
+
+        $user = Auth::user();
+
+        return view('app.perfil', compact('user'));
+    }
+
+    public function changePassword(Request $request)
+    {
+
+        $user = Auth::user();
+
+        $password = $request->input('password');
+        $password_confimation = $request->input('password_confirmation');
+
+        // Comprobamos que las dos contraseñas coincidan
+        if ($password != $password_confimation) {
+            return back()
+                ->withErrors(['password' => 'Las contraseñas no coinciden'])
+                ->withInput();
+        }
+
+        // Comprobamos que las dos contraseñas no sean la que ya está puesta
+        if (Hash::check($password, $user->password)) {
+
+            return back()
+                ->withErrors(['repeated_password' => 'Debes utilizar otra contraseña distinta a la que ya tienes'])
+                ->withInput();
+        }
+
+        // Actualizamos la contraseña
+        $user->password = Hash::make($password);
+
+        // Guardamos los cambios en la base de datos
+
+
+        $user->save();
+
+        
+
+        return back()->with('success', 'Contraseña actualizada correctamente.');
     }
 }

@@ -9,16 +9,27 @@
         /* Estilos Base - Modo Oscuro */
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #0d0e12;
-            /* Fondo oscuro profundo */
-            color: #ffffff;
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            color: #ffffff;
+
+            /* CAPA DE CONTRASTE OSCURA + LA IMAGEN (Ruta corregida para Laravel) */
+            background-image:
+                linear-gradient(to bottom, rgba(13, 14, 18, 0.75) 0%, rgba(13, 14, 18, 0.9) 100%),
+                url('/images/fondo-main-view.png');
+            /* <-- Quitamos "/public" */
+
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            /* Hace un efecto parallax espectacular al hacer scroll */
         }
+
 
         /* 1. Panel Superior (Navegación / Header) */
         .top-panel {
@@ -53,6 +64,67 @@
         .user-welcome span {
             color: #ffffff;
             font-weight: 700;
+        }
+
+        /* Contenedor que agrupa el texto y la foto a la derecha */
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            /* Espacio entre el texto de bienvenida y la foto */
+        }
+
+        /* Ajuste al texto de bienvenida */
+        .user-welcome {
+            font-size: 15px;
+            font-weight: 500;
+            color: #9ca3af;
+        }
+
+        .user-welcome span {
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        /* Contenedor de la imagen (mantiene las dimensiones rígidas) */
+        .user-avatar-container {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            /* Hace que todo sea perfectamente redondo */
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid #23262d;
+            /* Borde sutil a juego con el diseño oscuro */
+            background-color: #1a1d24;
+        }
+
+        /* Imagen de usuario real */
+        .user-avatar {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Evita que la foto se estire o deforme */
+        }
+
+        /* Foto por defecto (Avatar SVG) */
+        .user-avatar-default {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #232730;
+            /* Fondo gris para el icono por defecto */
+        }
+
+        .user-avatar-default svg {
+            width: 20px;
+            height: 20px;
+            color: #9ca3af;
+            /* Color del icono */
         }
 
         /* Contenedor de la estructura de abajo */
@@ -281,8 +353,26 @@
     <!-- 1. PANEL SUPERIOR -->
     <header class="top-panel">
         <div class="logo">Mil y un coches.</div>
-        <div class="user-welcome">
-            Bienvenido, {{ $user->name }}
+        <div class="user-menu">
+            <div class="user-welcome">
+                Bienvenido, <span>{{ $user->name }}</span>
+            </div>
+
+            <!-- Foto de perfil con fallback -->
+            <a href="{{ url('/app/user/' . $user->id) }}">
+                <div class="user-avatar-container">
+                    @if($user->avatar)
+                    <img src="{{ asset('storage/' . $user->avatar) }}" alt="Foto de {{ $user->name }}" class="user-avatar">
+                    @else
+                    <!-- Avatar genérico SVG minimalista si la foto es nula -->
+                    <div class="user-avatar-default">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                        </svg>
+                    </div>
+                    @endif
+                </div>
+            </a>
         </div>
     </header>
 

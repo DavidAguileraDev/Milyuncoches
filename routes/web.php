@@ -24,3 +24,10 @@ Route::get('/app', [AuthController::class, 'showApp']);
 
 // redirigir al anuncio
 Route::get('/app/anuncio/{id}', [AnuncioController::class, 'showAnuncio']);
+
+// redirigir al perfil
+Route::get('/app/user/{id}', [AuthController::class, 'showPerfil']);
+
+// Ruta para cambiar contraseña
+Route::post('/app/changePassword', [AuthController::class, 'changePassword']);
+
