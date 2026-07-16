@@ -12,7 +12,11 @@ class AnuncioController extends Controller
     {
         $user = Auth::user();
 
-        $anuncio = Anuncio::findOrFail($id);
+        $anuncio = Anuncio::join('users', 'anuncios.user_id', '=', 'users.id')
+            ->select('anuncios.*', 'users.name as nombre_usuario')
+            ->get()
+            ->first();
+
 
         return view('app.anuncio', compact('user', 'anuncio'));
     }

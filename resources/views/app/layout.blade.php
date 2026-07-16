@@ -21,7 +21,6 @@
             background-image:
                 linear-gradient(to bottom, rgba(13, 14, 18, 0.75) 0%, rgba(13, 14, 18, 0.9) 100%),
                 url('/images/fondo-main-view.png');
-            /* <-- Quitamos "/public" */
 
             background-size: cover;
             background-position: center;
@@ -160,6 +159,160 @@
         .left-panel:hover {
             transform: translateY(-4px);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        /* --- ESTILOS DEL DESPLEGABLE --- */
+        .filter-dropdown {
+            border: 1px solid #23262d;
+            border-radius: 12px;
+            background-color: #1a1d24;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+        /* Botón que activa el desplegable */
+        .dropdown-trigger {
+            width: 100%;
+            background: none;
+            border: none;
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: left;
+            user-select: none;
+        }
+
+        .dropdown-trigger:hover {
+            background-color: #232730;
+        }
+
+        /* Icono de flecha */
+        .dropdown-arrow {
+            width: 16px;
+            height: 16px;
+            color: #9ca3af;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Rotación de la flecha cuando está abierto */
+        .filter-dropdown.active .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        /* Contenido del desplegable (animado) */
+        .dropdown-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            background-color: #16181d;
+        }
+
+        .filter-dropdown.active .dropdown-content {
+            max-height: 200px;
+            /* Altura máxima permitida antes de hacer scroll */
+            border-top: 1px solid #23262d;
+        }
+
+        .checkbox-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 16px;
+        }
+
+        /* Checkbox personalizado */
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding-left: 30px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #9ca3af;
+            user-select: none;
+            transition: color 0.2s ease;
+        }
+
+        .checkbox-container:hover {
+            color: #ffffff;
+        }
+
+        .checkbox-container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        .checkmark {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 18px;
+            width: 18px;
+            background-color: #1a1d24;
+            border: 1px solid #2e333f;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .checkbox-container:hover input~.checkmark {
+            border-color: #4b5563;
+        }
+
+        .checkbox-container input:checked~.checkmark {
+            background-color: #ffffff;
+            border-color: #ffffff;
+        }
+
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        .checkbox-container input:checked~.checkmark:after {
+            display: block;
+        }
+
+        .checkbox-container .checkmark:after {
+            left: 5px;
+            top: 2px;
+            width: 5px;
+            height: 10px;
+            border: solid #16181d;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+        /* Botón de limpiar filtros */
+        .btn-clear-filters {
+            display: none;
+            text-align: center;
+            background-color: #232730;
+            color: #ffffff;
+            border: 1px solid #2e333f;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .btn-clear-filters:hover {
+            background-color: #ef4444;
+            border-color: #ef4444;
         }
 
         /* 3. Panel Central (Anuncios de coches) */
@@ -352,28 +505,73 @@
 
     <!-- 1. PANEL SUPERIOR -->
     <header class="top-panel">
+
         <div class="logo">Mil y un coches.</div>
+
         <div class="user-menu">
+
+            @if($user)
+
             <div class="user-welcome">
                 Bienvenido, <span>{{ $user->name }}</span>
             </div>
 
-            <!-- Foto de perfil con fallback -->
             <a href="{{ url('/app/user/' . $user->id) }}">
                 <div class="user-avatar-container">
-                    @if($user->avatar)
-                    <img src="{{ asset('storage/' . $user->avatar) }}" alt="Foto de {{ $user->name }}" class="user-avatar">
+
+                    @if($user->profile_image)
+
+                    <img src="{{ asset('storage/' . $user->profile_image) }}"
+                        alt="Foto de {{ $user->name }}"
+                        class="user-avatar">
+
                     @else
-                    <!-- Avatar genérico SVG minimalista si la foto es nula -->
+
                     <div class="user-avatar-default">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor">
+                            <path stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
                         </svg>
                     </div>
+
                     @endif
+
                 </div>
             </a>
+
+            @else
+
+            <div class="user-welcome">
+                Bienvenido, <span>Invitado</span>
+            </div>
+
+            <a href="{{ url('/login') }}">
+                <div class="user-avatar-container">
+
+                    <div class="user-avatar-default">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor">
+                            <path stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                        </svg>
+                    </div>
+
+                </div>
+            </a>
+
+            @endif
+
         </div>
+
     </header>
 
     <!-- ESTRUCTURA INFERIOR -->
@@ -381,8 +579,78 @@
 
         <!-- 2. PANEL IZQUIERDO (FILTROS) -->
         <aside class="left-panel">
+
             <h2>Filtros</h2>
-            <p>Aquí colocaremos los filtros de búsqueda especiales más adelante (marca, modelo, año, precio, combustible...).</p>
+
+            <form id="filterForm" action="{{ url('/app') }}" method="GET">
+
+                <!-- Acordeón / Desplegable de Marcas -->
+                <div class="filter-dropdown">
+
+                    <button type="button" class="dropdown-trigger" onclick="toggleDropdown(this)">
+                        <span>Marcas</span>
+
+                        <svg class="dropdown-arrow"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="2"
+                            stroke="currentColor">
+
+                            <path stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+
+                        </svg>
+                    </button>
+
+                    <div class="dropdown-content">
+
+                        <div class="checkbox-list">
+
+                            <!-- Todas -->
+                            <label class="checkbox-container">
+
+                                <input
+                                    type="checkbox"
+                                    id="filter-all"
+                                    {{ empty(request()->marca) ? 'checked' : '' }}>
+
+                                <span class="checkmark"></span>
+
+                                Todas
+
+                            </label>
+
+                            <hr style="border:0; border-top:1px solid #23262d; margin:4px 0;">
+
+                            @foreach($marcas as $marca)
+
+                            <label class="checkbox-container">
+
+                                <input
+                                    type="checkbox"
+                                    name="marca[]"
+                                    value="{{ $marca }}"
+                                    class="marca-filter"
+                                    {{ in_array($marca, request()->marca ?? []) ? 'checked' : '' }}>
+
+                                <span class="checkmark"></span>
+
+                                {{ $marca }}
+
+                            </label>
+
+                            @endforeach
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </form>
+
         </aside>
 
         <!-- 3. PANEL CENTRAL (ANUNCIOS) -->
@@ -427,7 +695,7 @@
 
                         <div class="anuncio-footer">
                             <span class="anuncio-autor">
-                                Publicado por <strong>{{ $user->name }}</strong>
+                                Publicado por <strong>{{ $anuncio->nombre_usuario }}</strong>
                             </span>
                         </div>
                     </div>
@@ -446,5 +714,59 @@
     </main>
 
 </body>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    const form = document.getElementById('filterForm');
+    const checkboxAll = document.getElementById('filter-all');
+    const checkboxesMarcas = document.querySelectorAll('.marca-filter');
+
+    // Cuando se pulsa "Todas"
+    checkboxAll.addEventListener('change', () => {
+
+        if (checkboxAll.checked) {
+
+            // Desmarcamos todas las marcas
+            checkboxesMarcas.forEach(cb => cb.checked = false);
+
+            // Enviamos el formulario (mostrará todos los anuncios)
+            form.submit();
+        }
+
+    });
+
+    // Cuando se pulsa una marca
+    checkboxesMarcas.forEach(checkbox => {
+
+        checkbox.addEventListener('change', () => {
+
+            const algunaMarcaActiva = Array.from(checkboxesMarcas).some(cb => cb.checked);
+
+            if (algunaMarcaActiva) {
+                // Si hay alguna marca seleccionada, quitamos "Todas"
+                checkboxAll.checked = false;
+            } else {
+                // Si no queda ninguna seleccionada, marcamos "Todas"
+                checkboxAll.checked = true;
+            }
+
+            // Enviamos el formulario automáticamente
+            form.submit();
+
+        });
+
+    });
+
+});
+
+// Función para abrir/cerrar el desplegable
+function toggleDropdown(button) {
+
+    const dropdown = button.parentElement;
+    dropdown.classList.toggle('active');
+
+}
+</script>
 
 </html>

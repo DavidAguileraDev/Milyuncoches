@@ -31,3 +31,6 @@ Route::get('/app/user/{id}', [AuthController::class, 'showPerfil']);
 // Ruta para cambiar contraseña
 Route::post('/app/changePassword', [AuthController::class, 'changePassword']);
 
+// Ruta para cerrar sesión
+Route::post('/logout', [AuthController::class, 'logout']);
+

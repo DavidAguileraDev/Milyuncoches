@@ -137,6 +137,46 @@
             color: #6b7280;
         }
 
+        /* Contenedor y Botón de Cerrar Sesión */
+        .logout-container {
+            width: 100%;
+            margin-top: 30px;
+            border-top: 1px solid #232730;
+            padding-top: 25px;
+        }
+
+        .btn-logout {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            padding: 12px 0;
+            background-color: transparent;
+            color: #f87171;
+            /* Rojo suave */
+            border: 1px solid #3f1d1d;
+            /* Borde rojo muy oscuro apagado */
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+        }
+
+        .btn-logout:hover {
+            background-color: #3f1d1d;
+            /* Fondo rojo oscuro al pasar el cursor */
+            color: #fca5a5;
+            /* Rojo más brillante */
+            border-color: #f87171;
+        }
+
+        .btn-logout svg {
+            width: 16px;
+            height: 16px;
+        }
+
         /* COLUMNA DERECHA: Formulario de ajustes */
         .profile-settings {
             background-color: #16181d;
@@ -282,6 +322,21 @@
             <div class="profile-meta">
                 Miembro desde: <strong>{{ $user->created_at ? $user->created_at->format('d/m/Y') : 'Reciente' }}</strong>
             </div>
+
+            <!-- Boton para cerrar sesion -->
+            <div class="logout-container">
+                <form action="{{ url('/logout') }}" method="POST" style="width: 100%; margin: 0;">
+                    @csrf
+                    <button type="submit" class="btn-logout">
+                        <!-- Icono de salida minimalista -->
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75" />
+                        </svg>
+                        Cerrar sesión
+                    </button>
+                </form>
+            </div>
+
         </section>
 
         <!-- COLUMNA DERECHA: CONFIGURACIÓN DE DATOS -->

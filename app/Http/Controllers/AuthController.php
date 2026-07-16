@@ -96,15 +96,48 @@ class AuthController extends Controller
         return redirect('/app');
     }
 
+
+    // función para cerrarsesion
+    public function logout(Request $request)
+    {
+        // Cerrar la sesión
+        Auth::logout();
+
+        // Invalidar la sesión
+        $request->session()->invalidate();
+
+        // Regenerar el token CSRF
+        $request->session()->regenerateToken();
+
+        // Redirigir al login
+        return redirect('/login');
+    }
+
     // funcion para retornar la vista de la app
-    public function showApp()
+    public function showApp(Request $request)
     {
 
         $user = Auth::user();
 
-        $anuncios = Anuncio::all();
+        $query = Anuncio::join('users', 'anuncios.user_id', '=', 'users.id')
+            ->select('anuncios.*', 'users.name as nombre_usuario');
 
-        return view('app.layout', compact('user', 'anuncios'));
+
+        // FILTRO POR MARCAS
+        if ($request->filled('marca')) {
+            $query->whereIn('marca', $request->marca);
+        }
+
+        // Ejecutar la consulta
+        $anuncios = $query->get();
+
+
+        $marcas = Anuncio::select('marca')
+            ->distinct()
+            ->orderBy('marca')
+            ->pluck('marca');
+
+        return view('app.layout', compact('user', 'anuncios', 'marcas'));
     }
 
 
@@ -148,7 +181,7 @@ class AuthController extends Controller
 
         $user->save();
 
-        
+
 
         return back()->with('success', 'Contraseña actualizada correctamente.');
     }

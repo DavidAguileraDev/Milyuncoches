@@ -37,6 +37,80 @@
             text-decoration: none;
         }
 
+
+        .user-welcome {
+            font-size: 15px;
+            font-weight: 500;
+            color: #9ca3af;
+            /* Gris secundario suave */
+        }
+
+        .user-welcome span {
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        /* Contenedor que agrupa el texto y la foto a la derecha */
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            /* Espacio entre el texto de bienvenida y la foto */
+        }
+
+        /* Ajuste al texto de bienvenida */
+        .user-welcome {
+            font-size: 15px;
+            font-weight: 500;
+            color: #9ca3af;
+        }
+
+        .user-welcome span {
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        /* Contenedor de la imagen (mantiene las dimensiones rígidas) */
+        .user-avatar-container {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            /* Hace que todo sea perfectamente redondo */
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid #23262d;
+            /* Borde sutil a juego con el diseño oscuro */
+            background-color: #1a1d24;
+        }
+
+        /* Imagen de usuario real */
+        .user-avatar {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Evita que la foto se estire o deforme */
+        }
+
+        /* Foto por defecto (Avatar SVG) */
+        .user-avatar-default {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #232730;
+            /* Fondo gris para el icono por defecto */
+        }
+
+        .user-avatar-default svg {
+            width: 20px;
+            height: 20px;
+            color: #9ca3af;
+            /* Color del icono */
+        }
+
         .back-link {
             color: #9ca3af;
             text-decoration: none;
@@ -52,7 +126,8 @@
         /* Contenedor del Detalle */
         .detail-layout {
             display: grid;
-            grid-template-columns: 1fr 380px; /* Columna de info principal y columna lateral de precio/acción */
+            grid-template-columns: 1fr 380px;
+            /* Columna de info principal y columna lateral de precio/acción */
             gap: 30px;
             max-width: 1200px;
             margin: 40px auto;
@@ -115,6 +190,33 @@
             color: #ffffff;
         }
 
+        /* Contenedor de Etiquetas técnicas (Badges) */
+        .anuncio-specs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px; /* Aumentamos el espacio inferior */
+            border-bottom: 1px solid #232730; /* La línea sutil idéntica al panel derecho */
+            padding-bottom: 20px; /* Espacio entre las etiquetas y la línea */
+        }
+
+        .spec-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background-color: #232730;
+            color: #9ca3af;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid #2e333f;
+        }
+
+        .spec-badge svg {
+            color: #9ca3af;
+        }
+
         .car-description {
             color: #9ca3af;
             font-size: 15px;
@@ -130,7 +232,8 @@
             padding: 30px;
             height: fit-content;
             position: sticky;
-            top: 100px; /* Se queda fijo al hacer scroll */
+            top: 100px;
+            /* Se queda fijo al hacer scroll */
         }
 
         .price-tag {
@@ -199,10 +302,12 @@
             .detail-layout {
                 grid-template-columns: 1fr;
             }
+
             .side-panel {
                 position: static;
             }
         }
+
     </style>
 </head>
 
@@ -211,7 +316,69 @@
     <!-- MENÚ SUPERIOR -->
     <header class="top-panel">
         <a href="/app" class="logo">Mil y un coches.</a>
-        <a href="/app" class="back-link">← Volver al listado</a>
+        <div class="user-menu">
+
+            @if($user)
+
+            <div class="user-welcome">
+                Bienvenido, <span>{{ $user->name }}</span>
+            </div>
+
+            <a href="{{ url('/app/user/' . $user->id) }}">
+                <div class="user-avatar-container">
+
+                    @if($user->profile_image)
+
+                    <img src="{{ asset('storage/' . $user->profile_image) }}"
+                        alt="Foto de {{ $user->name }}"
+                        class="user-avatar">
+
+                    @else
+
+                    <div class="user-avatar-default">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor">
+                            <path stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                        </svg>
+                    </div>
+
+                    @endif
+
+                </div>
+            </a>
+
+            @else
+
+            <div class="user-welcome">
+                Bienvenido, <span>Invitado</span>
+            </div>
+
+            <a href="{{ url('/login') }}">
+                <div class="user-avatar-container">
+
+                    <div class="user-avatar-default">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor">
+                            <path stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                        </svg>
+                    </div>
+
+                </div>
+            </a>
+
+            @endif
+
+        </div>
     </header>
 
     <!-- CUERPO DEL DETALLE -->
@@ -225,20 +392,34 @@
             </div>
 
             <h1 class="car-title">{{ $anuncio->marca }} <span>{{ $anuncio->modelo }}</span></h1>
-            <div class="car-publisher">
-                Anuncio publicado por <strong>{{ $user->name }}</strong>
+
+            <!-- Etiquetas de especificaciones técnicas -->
+
+            <div class="anuncio-specs">
+                <span class="spec-badge">
+
+                    {{ $anuncio->combustible }}
+                </span>
+                <span class="spec-badge">
+
+                    {{ $anuncio->transmision }}
+                </span>
+                <span class="spec-badge">
+
+                    {{ $anuncio->anio }}
+                </span>
             </div>
 
             @if($anuncio->descripcion)
-                <h2 class="section-title">Descripción del vendedor</h2>
-                <p class="car-description">
-                    {{ $anuncio->descripcion }}
-                </p>
+            <h2 class="section-title">Descripción del vendedor</h2>
+            <p class="car-description">
+                {{ $anuncio->descripcion }}
+            </p>
             @else
-                <h2 class="section-title">Descripción</h2>
-                <p class="car-description" style="font-style: italic;">
-                    El vendedor no ha añadido ninguna descripción detallada para este vehículo.
-                </p>
+            <h2 class="section-title">Descripción</h2>
+            <p class="car-description" style="font-style: italic;">
+                El vendedor no ha añadido ninguna descripción detallada para este vehículo.
+            </p>
             @endif
         </section>
 
@@ -250,13 +431,11 @@
 
             <div class="quick-specs">
                 <div class="spec-row">
-                    <span class="spec-label">Combustible</span>
-                    <span class="spec-value">{{ $anuncio->combustible }}</span>
+                    <span class="spec-label">Vendedor</span>
+                    <span class="spec-value">{{ $anuncio->nombre_usuario }}</span>
                 </div>
-                <div class="spec-row">
-                    <span class="spec-label">Transmisión</span>
-                    <span class="spec-value">{{ $anuncio->transmision }}</span>
-                </div>
+                
+                <!--Añadir atr disponible en la base de datos-->
                 <div class="spec-row">
                     <span class="spec-label">Estado</span>
                     <span class="spec-value" style="color: #10b981;">Disponible</span>
