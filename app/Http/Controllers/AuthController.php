@@ -178,7 +178,7 @@ class AuthController extends Controller
 
         // Guardamos los cambios en la base de datos
 
-
+        
         $user->save();
 
 

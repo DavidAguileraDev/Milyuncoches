@@ -9,15 +9,14 @@ use Illuminate\Support\Facades\Auth;
 class AnuncioController extends Controller
 {
     public function showAnuncio($id)
-    {
-        $user = Auth::user();
+{
+    $user = Auth::user();
 
-        $anuncio = Anuncio::join('users', 'anuncios.user_id', '=', 'users.id')
-            ->select('anuncios.*', 'users.name as nombre_usuario')
-            ->get()
-            ->first();
+    $anuncio = Anuncio::join('users', 'anuncios.user_id', '=', 'users.id')
+        ->select('anuncios.*', 'users.name as nombre_usuario')
+        ->where('anuncios.id', $id)
+        ->first();
 
-
-        return view('app.anuncio', compact('user', 'anuncio'));
-    }
+    return view('app.anuncio', compact('user', 'anuncio'));
+}
 }

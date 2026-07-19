@@ -85,6 +85,40 @@
             font-weight: 700;
         }
 
+        /* Estilos del Botón Vender */
+        .btn-vender {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background-color: #ffffff;
+            /* Blanco limpio para destacar sobre el fondo oscuro */
+            color: #16181d;
+            /* Texto oscuro a juego con tu fondo secundario */
+            text-decoration: none;
+            padding: 8px 18px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-vender:hover {
+            background-color: #f3f4f6;
+            /* Cambio sutil al pasar el cursor */
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-vender:active {
+            transform: translateY(1px);
+        }
+
+        .icon-vender {
+            width: 16px;
+            height: 16px;
+        }
+
         /* Contenedor de la imagen (mantiene las dimensiones rígidas) */
         .user-avatar-container {
             width: 40px;
@@ -510,6 +544,23 @@
 
         <div class="user-menu">
 
+            <!-- Botón Vender con lógica de sesión -->
+            @if($user)
+            <a href="{{ url('/app/vender') }}" class="btn-vender">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="icon-vender">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>
+                Vender
+            </a>
+            @else
+            <a href="{{ url('/login') }}" class="btn-vender">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="icon-vender">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>
+                Vender
+            </a>
+            @endif
+
             @if($user)
 
             <div class="user-welcome">
@@ -716,57 +767,57 @@
 </body>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', () => {
 
-    const form = document.getElementById('filterForm');
-    const checkboxAll = document.getElementById('filter-all');
-    const checkboxesMarcas = document.querySelectorAll('.marca-filter');
+        const form = document.getElementById('filterForm');
+        const checkboxAll = document.getElementById('filter-all');
+        const checkboxesMarcas = document.querySelectorAll('.marca-filter');
 
-    // Cuando se pulsa "Todas"
-    checkboxAll.addEventListener('change', () => {
+        // Cuando se pulsa "Todas"
+        checkboxAll.addEventListener('change', () => {
 
-        if (checkboxAll.checked) {
+            if (checkboxAll.checked) {
 
-            // Desmarcamos todas las marcas
-            checkboxesMarcas.forEach(cb => cb.checked = false);
+                // Desmarcamos todas las marcas
+                checkboxesMarcas.forEach(cb => cb.checked = false);
 
-            // Enviamos el formulario (mostrará todos los anuncios)
-            form.submit();
-        }
-
-    });
-
-    // Cuando se pulsa una marca
-    checkboxesMarcas.forEach(checkbox => {
-
-        checkbox.addEventListener('change', () => {
-
-            const algunaMarcaActiva = Array.from(checkboxesMarcas).some(cb => cb.checked);
-
-            if (algunaMarcaActiva) {
-                // Si hay alguna marca seleccionada, quitamos "Todas"
-                checkboxAll.checked = false;
-            } else {
-                // Si no queda ninguna seleccionada, marcamos "Todas"
-                checkboxAll.checked = true;
+                // Enviamos el formulario (mostrará todos los anuncios)
+                form.submit();
             }
 
-            // Enviamos el formulario automáticamente
-            form.submit();
+        });
+
+        // Cuando se pulsa una marca
+        checkboxesMarcas.forEach(checkbox => {
+
+            checkbox.addEventListener('change', () => {
+
+                const algunaMarcaActiva = Array.from(checkboxesMarcas).some(cb => cb.checked);
+
+                if (algunaMarcaActiva) {
+                    // Si hay alguna marca seleccionada, quitamos "Todas"
+                    checkboxAll.checked = false;
+                } else {
+                    // Si no queda ninguna seleccionada, marcamos "Todas"
+                    checkboxAll.checked = true;
+                }
+
+                // Enviamos el formulario automáticamente
+                form.submit();
+
+            });
 
         });
 
     });
 
-});
+    // Función para abrir/cerrar el desplegable
+    function toggleDropdown(button) {
 
-// Función para abrir/cerrar el desplegable
-function toggleDropdown(button) {
+        const dropdown = button.parentElement;
+        dropdown.classList.toggle('active');
 
-    const dropdown = button.parentElement;
-    dropdown.classList.toggle('active');
-
-}
+    }
 </script>
 
 </html>

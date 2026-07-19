@@ -154,7 +154,7 @@
 <body>
 
     <div>
-        <h1 class="welcome-title">Bienvenido a Mil y un coches!</h1>
+        <h1 class="welcome-title">Bienvenido a Mil & un coches!</h1>
     </div>
 
     <div class="login-container">

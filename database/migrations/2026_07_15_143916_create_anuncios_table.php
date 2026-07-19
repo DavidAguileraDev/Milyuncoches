@@ -13,28 +13,86 @@ return new class extends Migration
     {
         Schema::create('anuncios', function (Blueprint $table) {
 
-            // id
+            // Identificador
             $table->id();
 
-            // Usuario que ha publicado el anuncio
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            // Usuario propietario del anuncio
+            $table->foreignId('user_id')
+                ->constrained()
+                ->onDelete('cascade');
 
-            // Datos del vehículo
+            /*
+            |--------------------------------------------------------------------------
+            | Información principal
+            |--------------------------------------------------------------------------
+            */
+
             $table->string('marca');
             $table->string('modelo');
             $table->integer('anio');
 
-            // Características
+            /*
+            |--------------------------------------------------------------------------
+            | Características del vehículo
+            |--------------------------------------------------------------------------
+            */
+
+            $table->integer('kilometros');
+
             $table->string('combustible');
             $table->string('transmision');
 
-            // Precio
+            $table->integer('potencia');      // CV
+            $table->integer('cilindrada');    // cc
+
+            $table->string('tipo_vehiculo');  // Berlina, SUV, Compacto...
+            $table->string('color');
+
+            $table->tinyInteger('puertas');
+            $table->tinyInteger('plazas');
+
+            /*
+            |--------------------------------------------------------------------------
+            | Información comercial
+            |--------------------------------------------------------------------------
+            */
+
             $table->decimal('precio', 10, 2);
 
-            // Descripción
+            $table->string('estado')
+                ->default('Disponible');
+
+            /*
+            |--------------------------------------------------------------------------
+            | Localización
+            |--------------------------------------------------------------------------
+            */
+
+            $table->string('provincia');
+            $table->string('ciudad');
+
+            /*
+            |--------------------------------------------------------------------------
+            | Información adicional
+            |--------------------------------------------------------------------------
+            */
+
             $table->text('descripcion')->nullable();
 
-            //El tiempo que se ha creado
+            /*
+            |--------------------------------------------------------------------------
+            | Imagen principal
+            |--------------------------------------------------------------------------
+            */
+
+            $table->string('foto_principal')->nullable();
+
+            /*
+            |--------------------------------------------------------------------------
+            | Fechas
+            |--------------------------------------------------------------------------
+            */
+
             $table->timestamps();
         });
     }

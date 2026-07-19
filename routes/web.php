@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AnuncioController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CrearAnuncioController;
 use Illuminate\Support\Facades\Route;
 
 //Ruta que apunta a login (dominio)
@@ -22,9 +23,6 @@ Route::post('/register', [AuthController::class, 'createUser']);
 // redirigir a la app principal
 Route::get('/app', [AuthController::class, 'showApp']);
 
-// redirigir al anuncio
-Route::get('/app/anuncio/{id}', [AnuncioController::class, 'showAnuncio']);
-
 // redirigir al perfil
 Route::get('/app/user/{id}', [AuthController::class, 'showPerfil']);
 
@@ -33,4 +31,13 @@ Route::post('/app/changePassword', [AuthController::class, 'changePassword']);
 
 // Ruta para cerrar sesión
 Route::post('/logout', [AuthController::class, 'logout']);
+
+// redirigir al anuncio
+Route::get('/app/anuncio/{id}', [AnuncioController::class, 'showAnuncio']);
+
+// Ruta para crear un anuncio
+Route::get('/app/vender', [CrearAnuncioController::class, 'showCrearAnuncio']);
+
+// Ruta para crear un anuncio
+Route::post('/app/crearAnuncio', [CrearAnuncioController::class, 'crearAnuncio']);
 

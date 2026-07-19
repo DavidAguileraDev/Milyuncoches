@@ -16,7 +16,7 @@
             box-sizing: border-box;
         }
 
-        /* Panel Superior (A juego con la Home) */
+        /* Panel Superior */
         .top-panel {
             width: 100%;
             height: 70px;
@@ -37,28 +37,13 @@
             text-decoration: none;
         }
 
-
-        .user-welcome {
-            font-size: 15px;
-            font-weight: 500;
-            color: #9ca3af;
-            /* Gris secundario suave */
-        }
-
-        .user-welcome span {
-            color: #ffffff;
-            font-weight: 700;
-        }
-
-        /* Contenedor que agrupa el texto y la foto a la derecha */
+        /* Contenedor Perfil de Usuario */
         .user-menu {
             display: flex;
             align-items: center;
             gap: 14px;
-            /* Espacio entre el texto de bienvenida y la foto */
         }
 
-        /* Ajuste al texto de bienvenida */
         .user-welcome {
             font-size: 15px;
             font-weight: 500;
@@ -70,30 +55,24 @@
             font-weight: 700;
         }
 
-        /* Contenedor de la imagen (mantiene las dimensiones rígidas) */
         .user-avatar-container {
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            /* Hace que todo sea perfectamente redondo */
             overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
             border: 2px solid #23262d;
-            /* Borde sutil a juego con el diseño oscuro */
             background-color: #1a1d24;
         }
 
-        /* Imagen de usuario real */
         .user-avatar {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            /* Evita que la foto se estire o deforme */
         }
 
-        /* Foto por defecto (Avatar SVG) */
         .user-avatar-default {
             width: 100%;
             height: 100%;
@@ -101,33 +80,18 @@
             justify-content: center;
             align-items: center;
             background-color: #232730;
-            /* Fondo gris para el icono por defecto */
         }
 
         .user-avatar-default svg {
             width: 20px;
             height: 20px;
             color: #9ca3af;
-            /* Color del icono */
         }
 
-        .back-link {
-            color: #9ca3af;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-
-        .back-link:hover {
-            color: #ffffff;
-        }
-
-        /* Contenedor del Detalle */
+        /* Estructura de la Vista de Detalle */
         .detail-layout {
             display: grid;
             grid-template-columns: 1fr 380px;
-            /* Columna de info principal y columna lateral de precio/acción */
             gap: 30px;
             max-width: 1200px;
             margin: 40px auto;
@@ -143,26 +107,37 @@
             padding: 40px;
         }
 
-        /* Placeholder para futura Foto */
-        .photo-placeholder {
+        /* Contenedor de la Imagen Principal */
+        .photo-container {
             width: 100%;
-            height: 400px;
+            height: 450px;
             background-color: #1a1d24;
             border-radius: 16px;
             border: 1px solid #2e333f;
+            overflow: hidden;
+            margin-bottom: 30px;
             display: flex;
             justify-content: center;
             align-items: center;
+        }
+
+        .photo-main {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .photo-placeholder {
             color: #4b5563;
             font-size: 16px;
             font-weight: 500;
-            margin-bottom: 30px;
+            text-align: center;
         }
 
         .car-title {
             font-size: 36px;
             font-weight: 800;
-            margin: 0 0 10px 0;
+            margin: 0 0 15px 0;
             letter-spacing: -1px;
         }
 
@@ -171,16 +146,26 @@
             color: #9ca3af;
         }
 
-        .car-publisher {
-            font-size: 14px;
-            color: #6b7280;
+        /* Bloque superior de etiquetas (Badges destacados) */
+        .anuncio-specs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
             margin-bottom: 30px;
             border-bottom: 1px solid #232730;
-            padding-bottom: 15px;
+            padding-bottom: 25px;
         }
 
-        .car-publisher strong {
-            color: #9ca3af;
+        .spec-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: #232730;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid #2e333f;
         }
 
         .section-title {
@@ -190,41 +175,15 @@
             color: #ffffff;
         }
 
-        /* Contenedor de Etiquetas técnicas (Badges) */
-        .anuncio-specs {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 20px; /* Aumentamos el espacio inferior */
-            border-bottom: 1px solid #232730; /* La línea sutil idéntica al panel derecho */
-            padding-bottom: 20px; /* Espacio entre las etiquetas y la línea */
-        }
-
-        .spec-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background-color: #232730;
-            color: #9ca3af;
-            font-size: 12px;
-            font-weight: 600;
-            padding: 6px 12px;
-            border-radius: 20px;
-            border: 1px solid #2e333f;
-        }
-
-        .spec-badge svg {
-            color: #9ca3af;
-        }
-
         .car-description {
             color: #9ca3af;
             font-size: 15px;
             line-height: 1.7;
             margin: 0;
+            white-space: pre-line; /* Mantiene los saltos de línea de la descripción */
         }
 
-        /* Panel Lateral (Derecho - Compra/Precio) */
+        /* Panel Lateral (Derecho) */
         .side-panel {
             background-color: #16181d;
             border-radius: 24px;
@@ -232,22 +191,22 @@
             padding: 30px;
             height: fit-content;
             position: sticky;
-            top: 100px;
-            /* Se queda fijo al hacer scroll */
+            top: 40px;
         }
 
         .price-tag {
-            font-size: 32px;
+            font-size: 36px;
             font-weight: 800;
             color: #ffffff;
             margin-bottom: 25px;
+            letter-spacing: -0.5px;
         }
 
-        /* Características rápidas */
+        /* Fila de características técnicas en tabla lateral */
         .quick-specs {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
             margin-bottom: 30px;
         }
 
@@ -255,8 +214,13 @@
             display: flex;
             justify-content: space-between;
             font-size: 14px;
-            padding-bottom: 10px;
+            padding-bottom: 12px;
             border-bottom: 1px solid #232730;
+        }
+
+        .spec-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
         }
 
         .spec-label {
@@ -269,7 +233,7 @@
             font-weight: 600;
         }
 
-        /* Botón de acción estilo premium (blanco minimalista) */
+        /* Botón Premium */
         .btn-contact {
             display: flex;
             justify-content: center;
@@ -297,7 +261,7 @@
             transform: scale(0.98);
         }
 
-        /* Responsivo básico */
+        /* Vista Adaptativa */
         @media (max-width: 900px) {
             .detail-layout {
                 grid-template-columns: 1fr;
@@ -306,8 +270,11 @@
             .side-panel {
                 position: static;
             }
+            
+            .photo-container {
+                height: 320px;
+            }
         }
-
     </style>
 </head>
 
@@ -317,67 +284,37 @@
     <header class="top-panel">
         <a href="/app" class="logo">Mil y un coches.</a>
         <div class="user-menu">
-
             @if($user)
-
-            <div class="user-welcome">
-                Bienvenido, <span>{{ $user->name }}</span>
-            </div>
-
-            <a href="{{ url('/app/user/' . $user->id) }}">
-                <div class="user-avatar-container">
-
-                    @if($user->profile_image)
-
-                    <img src="{{ asset('storage/' . $user->profile_image) }}"
-                        alt="Foto de {{ $user->name }}"
-                        class="user-avatar">
-
-                    @else
-
-                    <div class="user-avatar-default">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor">
-                            <path stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-                        </svg>
-                    </div>
-
-                    @endif
-
+                <div class="user-welcome">
+                    Bienvenido, <span>{{ $user->name }}</span>
                 </div>
-            </a>
-
+                <a href="{{ url('/app/user/' . $user->id) }}">
+                    <div class="user-avatar-container">
+                        @if($user->profile_image)
+                            <img src="{{ asset('storage/' . $user->profile_image) }}" alt="Foto de {{ $user->name }}" class="user-avatar">
+                        @else
+                            <div class="user-avatar-default">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                                </svg>
+                            </div>
+                        @endif
+                    </div>
+                </a>
             @else
-
-            <div class="user-welcome">
-                Bienvenido, <span>Invitado</span>
-            </div>
-
-            <a href="{{ url('/login') }}">
-                <div class="user-avatar-container">
-
-                    <div class="user-avatar-default">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor">
-                            <path stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-                        </svg>
-                    </div>
-
+                <div class="user-welcome">
+                    Bienvenido, <span>Invitado</span>
                 </div>
-            </a>
-
+                <a href="{{ url('/login') }}">
+                    <div class="user-avatar-container">
+                        <div class="user-avatar-default">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                            </svg>
+                        </div>
+                    </div>
+                </a>
             @endif
-
         </div>
     </header>
 
@@ -386,63 +323,80 @@
 
         <!-- COLUMNA IZQUIERDA: INFORMACIÓN PRINCIPAL -->
         <section class="main-info-panel">
-            <!-- Zona reservada para la futura imagen -->
-            <div class="photo-placeholder">
-                [ Zona de Imagen - Próximamente ]
+            
+            <!-- Comprobamos si tiene foto asignada -->
+            <div class="photo-container">
+                @if($anuncio->foto_principal)
+                    <img src="{{ asset('storage/' . $anuncio->foto_principal) }}" alt="{{ $anuncio->marca }} {{ $anuncio->modelo }}" class="photo-main">
+                @else
+                    <div class="photo-placeholder">
+                        <span>Sin imagen disponible</span>
+                    </div>
+                @endif
             </div>
 
             <h1 class="car-title">{{ $anuncio->marca }} <span>{{ $anuncio->modelo }}</span></h1>
 
-            <!-- Etiquetas de especificaciones técnicas -->
-
+            <!-- Badges de especificaciones destacadas -->
             <div class="anuncio-specs">
-                <span class="spec-badge">
-
-                    {{ $anuncio->combustible }}
-                </span>
-                <span class="spec-badge">
-
-                    {{ $anuncio->transmision }}
-                </span>
-                <span class="spec-badge">
-
-                    {{ $anuncio->anio }}
-                </span>
+                <span class="spec-badge">{{ number_format($anuncio->kilometros, 0, ',', '.') }} km</span>
+                <span class="spec-badge">{{ $anuncio->combustible }}</span>
+                <span class="spec-badge">{{ $anuncio->transmision }}</span>
+                <span class="spec-badge">{{ $anuncio->anio }}</span>
+                <span class="spec-badge">{{ $anuncio->potencia }} CV</span>
             </div>
 
+            <!-- Descripción del Vendedor -->
             @if($anuncio->descripcion)
-            <h2 class="section-title">Descripción del vendedor</h2>
-            <p class="car-description">
-                {{ $anuncio->descripcion }}
-            </p>
+                <h2 class="section-title">Descripción del vendedor</h2>
+                <p class="car-description">{{ $anuncio->descripcion }}</p>
             @else
-            <h2 class="section-title">Descripción</h2>
-            <p class="car-description" style="font-style: italic;">
-                El vendedor no ha añadido ninguna descripción detallada para este vehículo.
-            </p>
+                <h2 class="section-title">Descripción</h2>
+                <p class="car-description" style="font-style: italic; color: #4b5563;">
+                    El vendedor no ha añadido ninguna descripción detallada para este vehículo.
+                </p>
             @endif
         </section>
 
-        <!-- COLUMNA DERECHA: TARJETA DE PRECIO Y ACCIÓN -->
+        <!-- COLUMNA DERECHA: TARJETA DE PRECIO Y ESPECIFICACIONES -->
         <aside class="side-panel">
             <div class="price-tag">
                 {{ number_format($anuncio->precio, 0, ',', '.') }} €
             </div>
 
             <div class="quick-specs">
+                <!-- Ubicación combinada basada en tu lógica de Provincia/Ciudad -->
                 <div class="spec-row">
-                    <span class="spec-label">Vendedor</span>
-                    <span class="spec-value">{{ $anuncio->nombre_usuario }}</span>
+                    <span class="spec-label">Ubicación</span>
+                    <span class="spec-value">{{ $anuncio->ciudad }}, {{ $anuncio->provincia }}</span>
                 </div>
-                
-                <!--Añadir atr disponible en la base de datos-->
+                <div class="spec-row">
+                    <span class="spec-label">Carrocería</span>
+                    <span class="spec-value">{{ $anuncio->tipo_vehiculo }}</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Cilindrada</span>
+                    <span class="spec-value">{{ number_format($anuncio->cilindrada, 0, ',', '.') }} cc</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Color</span>
+                    <span class="spec-value">{{ $anuncio->color }}</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Puertas / Plazas</span>
+                    <span class="spec-value">{{ $anuncio->puertas }} / {{ $anuncio->plazas }}</span>
+                </div>
                 <div class="spec-row">
                     <span class="spec-label">Estado</span>
-                    <span class="spec-value" style="color: #10b981;">Disponible</span>
+                    <!-- Condición dinámica por si en el futuro manejas "Reservado" o "Vendido" -->
+                    <span class="spec-value" style="color: {{ $anuncio->estado === 'Disponible' ? '#10b981' : '#ef4444' }};">
+                        {{ $anuncio->estado }}
+                    </span>
                 </div>
             </div>
 
-            <a href="#" class="btn-contact">
+            <!-- Botón de Acción -->
+            <a href="mailto:?subject=Interés en tu {{ $anuncio->marca }} {{ $anuncio->modelo }} - Milyuncoches" class="btn-contact">
                 Contactar con vendedor
             </a>
         </aside>
