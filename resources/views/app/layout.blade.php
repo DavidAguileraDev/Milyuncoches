@@ -631,7 +631,7 @@
         <!-- 2. PANEL IZQUIERDO (FILTROS) -->
         <aside class="left-panel">
 
-            <h2>Filtro</h2>
+            <h2>Filtros</h2>
 
             <form id="filterForm" action="{{ url('/app') }}" method="GET">
 
