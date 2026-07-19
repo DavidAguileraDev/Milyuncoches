@@ -42,9 +42,8 @@
             font-size: 20px;
             font-weight: 800;
             letter-spacing: -0.5px;
-            background: linear-gradient(90deg, #ffffff, #a3a3a3);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #ffffff;
+            text-decoration: none;
         }
 
         .user-menu {
@@ -289,7 +288,7 @@
     <!-- 1. PANEL SUPERIOR -->
     <header class="top-panel">
 
-        <div class="logo">Mil y un coches.</div>
+        <a href="/app" class="logo">Mil y un coches.</a>
 
         <div class="user-menu">
 
