@@ -1,3 +1,7 @@
+@php
+use Illuminate\Support\Facades\Storage;
+@endphp
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -56,7 +60,6 @@
         .profile-layout {
             display: grid;
             grid-template-columns: 320px 1fr;
-            /* Columna izquierda fija, derecha flexible */
             gap: 40px;
             max-width: 1100px;
             margin: 50px auto;
@@ -94,7 +97,6 @@
             background-color: #1a1d24;
             margin-bottom: 20px;
             position: relative;
-            cursor: pointer;
         }
 
         .large-avatar {
@@ -130,6 +132,7 @@
             font-size: 14px;
             color: #9ca3af;
             margin: 0 0 25px 0;
+            word-break: break-all;
         }
 
         .profile-meta {
@@ -157,9 +160,7 @@
             padding: 12px 0;
             background-color: transparent;
             color: #f87171;
-            /* Rojo suave */
             border: 1px solid #3f1d1d;
-            /* Borde rojo muy oscuro apagado */
             border-radius: 30px;
             font-size: 14px;
             font-weight: 600;
@@ -169,9 +170,7 @@
 
         .btn-logout:hover {
             background-color: #3f1d1d;
-            /* Fondo rojo oscuro al pasar el cursor */
             color: #fca5a5;
-            /* Rojo más brillante */
             border-color: #f87171;
         }
 
@@ -186,12 +185,15 @@
             border-radius: 24px;
             border: 1px solid #23262d;
             padding: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
         }
 
         .section-title {
             font-size: 24px;
             font-weight: 800;
-            margin: 0 0 30px 0;
+            margin: 0;
             letter-spacing: -0.5px;
             border-bottom: 1px solid #232730;
             padding-bottom: 15px;
@@ -201,7 +203,7 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 24px;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
 
         .form-group {
@@ -218,7 +220,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* Inputs de estilo minimalista del proyecto */
         .profile-input {
             width: 100%;
             padding: 10px 0px;
@@ -236,11 +237,34 @@
             border-bottom-color: #ffffff;
         }
 
-        /* Botón de acción para guardar */
-        .btn-save-container {
-            margin-top: 40px;
+        /* Estilo personalizado para el input de tipo file */
+        .profile-file-input {
+            color: #9ca3af;
+            font-size: 14px;
+            padding: 10px 0;
+        }
+
+        .profile-file-input::-webkit-file-upload-button {
+            background: #23262d;
+            border: 1px solid #374151;
+            color: #ffffff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-right: 10px;
+            transition: background 0.2s;
+        }
+
+        .profile-file-input::-webkit-file-upload-button:hover {
+            background: #374151;
+        }
+
+        /* Contenedores de botones individuales */
+        .btn-container {
             display: flex;
             justify-content: flex-end;
+            margin-top: 15px;
         }
 
         .btn-save {
@@ -268,19 +292,39 @@
             transform: scale(.98);
         }
 
+        /* Botón secundario para la foto */
+        .btn-secondary {
+            background-color: transparent;
+            color: #ffffff;
+            border: 1px solid #4b5563;
+        }
+
+        .btn-secondary:hover {
+            background-color: #23262d;
+            border-color: #ffffff;
+        }
+
         .error {
             color: #ff4d4f;
             font-size: 13px;
             margin-top: 6px;
+            margin-bottom: 0;
         }
 
         .success {
             color: rgb(115, 209, 87);
             font-size: 13px;
             margin-top: 6px;
+            margin-bottom: 0;
         }
 
-        /* Adaptabilidad móvil */
+        /* Separador visual interno */
+        .form-separator {
+            border: 0;
+            border-top: 1px solid #232730;
+            margin: 10px 0;
+        }
+
         @media (max-width: 800px) {
             .profile-layout {
                 grid-template-columns: 1fr;
@@ -306,10 +350,12 @@
 
         <!-- COLUMNA IZQUIERDA: TARJETA DEL USUARIO -->
         <section class="profile-card">
-            <!-- Avatar grande -->
             <div class="large-avatar-container">
-                @if($user->avatar)
-                <img src="{{ asset('storage/' . $user->avatar) }}" alt="Foto de {{ $user->name }}" class="large-avatar">
+                @if($user->profile_image)
+                <!-- URL dinámica limpia desde S3/Supabase -->
+                <img src="https://poronftkafxcbnvvsxco.supabase.co/storage/v1/object/public/perfil/{{ $user->profile_image }}"
+                    alt="Foto de {{ $user->name }}"
+                    class="large-avatar">
                 @else
                 <div class="large-avatar-default">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -331,7 +377,6 @@
                 <form action="{{ url('/logout') }}" method="POST" style="width: 100%; margin: 0;">
                     @csrf
                     <button type="submit" class="btn-logout">
-                        <!-- Icono de salida minimalista -->
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75" />
                         </svg>
@@ -339,70 +384,89 @@
                     </button>
                 </form>
             </div>
-
         </section>
 
         <!-- COLUMNA DERECHA: CONFIGURACIÓN DE DATOS -->
         <section class="profile-settings">
-            <h2 class="section-title">Ajustes de cuenta</h2>
+            <div>
+                <h2 class="section-title" style="margin-bottom: 30px;">Ajustes de cuenta</h2>
 
-            <!-- Nota: Puedes cambiar este "action" a la ruta donde proceses la actualización -->
-            <form action=" {{ url('/app/changePassword') }} " method="POST" enctype="multipart/form-data">
-                @csrf
+                <!-- FORMULARIO 1: DATOS Y CONTRASEÑA -->
+                <form action="{{ url('/app/changePassword') }}" method="POST">
+                    @csrf
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="name">Nombre Completo</label>
-                        <input type="text" name="name" id="name" class="profile-input" value="{{ old('name', $user->name) }}" required>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">Nombre Completo</label>
+                            <input type="text" name="name" id="name" class="profile-input" value="{{ old('name', $user->name) }}" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Dirección de Email</label>
+                            <input type="email" name="email" id="email" class="profile-input" value="{{ old('email', $user->email) }}" required>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="email">Dirección de Email</label>
-                        <input type="email" name="email" id="email" class="profile-input" value="{{ old('email', $user->email) }}" required>
-                    </div>
-                </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="password">Nueva Contraseña</label>
+                            <input type="password" name="password" id="password" class="profile-input" placeholder="••••••••">
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="password">Nueva Contraseña</label>
-                        <input type="password" name="password" id="password" class="profile-input" placeholder="••••••••">
-                        <p id="password-error" class="error">
                             @error('password')
-                            {{ $message }}
+                            <p class="error">{{ $message }}</p>
                             @enderror
-                        </p>
 
-                        <p id="password-error" class="error">
                             @error('repeated_password')
-                            {{ $message }}
+                            <p class="error">{{ $message }}</p>
                             @enderror
-                        </p>
 
-                        @if(session('success'))
-                        <p class="success">
-                            {{ session('success') }}
-                        </p>
+                            @if(session('success') && session('success') !== 'Foto actualizada correctamente.')
+                            <p class="success">{{ session('success') }}</p>
+                            @endif
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password_confirmation">Confirmar Contraseña</label>
+                            <input type="password" name="password_confirmation" id="password_confirmation" class="profile-input" placeholder="••••••••">
+                        </div>
+                    </div>
+
+                    <div class="btn-container">
+                        <button type="submit" class="btn-save">
+                            Guardar cambios
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <hr class="form-separator">
+
+            <!-- FORMULARIO 2: CAMBIAR FOTO DE PERFIL -->
+            <div>
+                <h2 class="section-title" style="margin-bottom: 25px;">Imagen de perfil</h2>
+
+                <form action="{{ url('/app/user/profile-image') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+
+                    <div class="form-group">
+                        <label for="avatar">Selecciona una nueva imagen</label>
+                        <input type="file" name="avatar" id="avatar" class="profile-file-input" accept="image/*" required>
+
+                        @error('avatar')
+                        <p class="error">{{ $message }}</p>
+                        @enderror
+                        @if(session('success') && request()->is('*/profile-image*') || session('success') == 'Foto actualizada correctamente.')
+                        <p class="success">{{ session('success') }}</p>
                         @endif
                     </div>
 
-                    <div class="form-group">
-                        <label for="password_confirmation">Confirmar Contraseña</label>
-                        <input type="password" name="password_confirmation" id="password_confirmation" class="profile-input" placeholder="••••••••">
+                    <div class="btn-container">
+                        <button type="submit" class="btn-save btn-secondary">
+                            Actualizar foto
+                        </button>
                     </div>
-                </div>
-
-                <!-- Subir nueva foto opcional -->
-                <div class="form-group" style="margin-bottom: 10px;">
-                    <label for="avatar">Cambiar foto de perfil</label>
-                    <input type="file" name="avatar" id="avatar" accept="image/*" style="color: #9ca3af; margin-top: 10px; font-size: 14px;">
-                </div>
-
-                <div class="btn-save-container">
-                    <button type="submit" class="btn-save">
-                        Guardar cambios
-                    </button>
-                </div>
-            </form>
+                </form>
+            </div>
         </section>
 
     </main>

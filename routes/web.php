@@ -4,6 +4,7 @@ use App\Http\Controllers\AnuncioController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CrearAnuncioController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PerfilController;
 
 //Ruta que apunta a login (dominio)
 Route::get('/', [AuthController::class, 'showLogin']);
@@ -40,4 +41,7 @@ Route::get('/app/vender', [CrearAnuncioController::class, 'showCrearAnuncio']);
 
 // Ruta para crear un anuncio
 Route::post('/app/crearAnuncio', [CrearAnuncioController::class, 'crearAnuncio']);
+
+// Actualizar foto de perfil
+Route::post('/app/user/profile-image', [PerfilController::class, 'updateProfileImage']);
 

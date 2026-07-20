@@ -13,7 +13,7 @@ class AnuncioController extends Controller
     $user = Auth::user();
 
     $anuncio = Anuncio::join('users', 'anuncios.user_id', '=', 'users.id')
-        ->select('anuncios.*', 'users.name as nombre_usuario')
+        ->select('anuncios.*', 'users.name as nombre_usuario', 'users.profile_image as foto_vendedor')
         ->where('anuncios.id', $id)
         ->first();
 

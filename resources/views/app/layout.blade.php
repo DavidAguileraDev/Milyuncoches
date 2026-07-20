@@ -481,7 +481,49 @@
             border-top: 1px solid #232730;
             padding-top: 14px;
             margin-top: auto;
-            /* Empuja el footer siempre abajo si una tarjeta tiene menos texto */
+            display: flex;
+            justify-content: space-between;
+            /* Empuja el avatar a la derecha del todo */
+            align-items: center;
+            /* Centra verticalmente el texto con la foto */
+        }
+
+        .anuncio-autor {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .anuncio-autor strong {
+            color: #9ca3af;
+        }
+
+        /* Contenedor circular de la miniatura del autor */
+        .anuncio-autor-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #232730;
+            border: 1px solid #2e333f;
+            flex-shrink: 0;
+            /* Evita que el contenedor se comprima si el texto es largo */
+        }
+
+        /* La imagen real dentro del círculo */
+        .autor-avatar-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Icono SVG por defecto en miniatura */
+        .anuncio-autor-avatar svg {
+            width: 14px;
+            height: 14px;
+            color: #6b7280;
         }
 
         .anuncio-autor {
@@ -577,7 +619,7 @@
 
                     @if($user->profile_image)
 
-                    <img src="{{ asset('storage/' . $user->profile_image) }}"
+                    <img src="https://poronftkafxcbnvvsxco.supabase.co/storage/v1/object/public/perfil/{{ $user->profile_image }}"
                         alt="Foto de {{ $user->name }}"
                         class="user-avatar">
 
@@ -753,6 +795,20 @@
                             <span class="anuncio-autor">
                                 Publicado por <strong>{{ $anuncio->nombre_usuario }}</strong>
                             </span>
+                            
+                            <!-- Miniatura del perfil del vendedor -->
+                            <div class="anuncio-autor-avatar">
+                                @if($anuncio->foto_vendedor) 
+                                <img src="https://poronftkafxcbnvvsxco.supabase.co/storage/v1/object/public/perfil/{{ $anuncio->foto_vendedor }}"
+                                    alt="Foto de {{ $anuncio->nombre_usuario }}"
+                                    class="autor-avatar-img">
+                                @else
+                                <!-- SVG por defecto en miniatura si el vendedor no tiene foto -->
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                                </svg>
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </a>

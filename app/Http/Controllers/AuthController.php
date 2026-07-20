@@ -120,7 +120,7 @@ class AuthController extends Controller
         $user = Auth::user();
 
         $query = Anuncio::join('users', 'anuncios.user_id', '=', 'users.id')
-            ->select('anuncios.*', 'users.name as nombre_usuario');
+            ->select('anuncios.*', 'users.name as nombre_usuario', 'users.profile_image as foto_vendedor');
 
 
         // FILTRO POR MARCAS
