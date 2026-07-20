@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Milyuncoches - Chats</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos Base - Modo Oscuro */
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            color: #ffffff;
+            background-image:
+                linear-gradient(to bottom, rgba(13, 14, 18, 0.85) 0%, rgba(13, 14, 18, 0.95) 100%),
+                url('https://poronftkafxcbnvvsxco.supabase.co/storage/v1/object/public/anuncios/fondo-main-view.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            overflow: hidden; /* Mantiene la pantalla fija para evitar scroll doble en el chat */
+        }
+
+        /* 1. Panel Superior (Navegación / Header) */
+        .top-panel {
+            width: 100%;
+            height: 70px;
+            background-color: #16181d;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            box-sizing: border-box;
+            border-bottom: 1px solid #23262d;
+            flex-shrink: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .btn-chat {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: #232730;
+            color: #ffffff;
+            border: 1px solid #2e333f;
+            border-radius: 12px;
+            text-decoration: none;
+        }
+
+        .btn-vender {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background-color: #ffffff;
+            color: #16181d;
+            text-decoration: none;
+            padding: 8px 18px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+
+        .btn-vender:hover {
+            background-color: #f3f4f6;
+            transform: translateY(-1px);
+        }
+
+        .icon-vender, .icon-chat {
+            width: 18px;
+            height: 18px;
+        }
+
+        .user-welcome {
+            font-size: 15px;
+            font-weight: 500;
+            color: #9ca3af;
+        }
+
+        .user-welcome span {
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        .user-avatar-container {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid #23262d;
+            background-color: #1a1d24;
+        }
+
+        .user-avatar {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .user-avatar-default {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #232730;
+        }
+
+        .user-avatar-default svg {
+            width: 20px;
+            height: 20px;
+            color: #9ca3af;
+        }
+
+        /* 2. Contenedor Principal del Chat */
+        .chat-layout {
+            display: flex;
+            flex: 1;
+            padding: 25px 30px;
+            gap: 20px;
+            max-width: 1600px;
+            margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
+            height: calc(100vh - 70px);
+        }
+
+        /* Lateral Izquierdo: Lista de Chats */
+        .chats-sidebar {
+            width: 360px;
+            background-color: #16181d;
+            border-radius: 20px;
+            border: 1px solid #23262d;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chats-header {
+            padding: 20px;
+            border-bottom: 1px solid #23262d;
+        }
+
+        .chats-header h2 {
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0 0 6px 0;
+            letter-spacing: -0.5px;
+        }
+
+        .chats-header p {
+            color: #9ca3af;
+            font-size: 13px;
+            margin: 0;
+        }
+
+        .chats-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        /* Tarjeta / Item de la lista de chats */
+        .chat-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            border-radius: 14px;
+            background-color: #1a1d24;
+            border: 1px solid #23262d;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s ease;
+        }
+
+        .chat-item:hover, .chat-item.active {
+            background-color: #232730;
+            border-color: #374151;
+            transform: translateX(2px);
+        }
+
+        .chat-item-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background-color: #2e333f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .chat-item-avatar svg {
+            width: 22px;
+            height: 22px;
+            color: #9ca3af;
+        }
+
+        .chat-item-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .chat-item-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 3px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .chat-item-preview {
+            font-size: 12.5px;
+            color: #9ca3af;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Panel Derecho: Área del Chat Activo */
+        .chat-main {
+            flex: 1;
+            background-color: #16181d;
+            border-radius: 20px;
+            border: 1px solid #23262d;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-main-header {
+            padding: 18px 24px;
+            border-bottom: 1px solid #23262d;
+            background-color: #1a1d24;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .chat-main-header h3 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .chat-main-header p {
+            margin: 2px 0 0 0;
+            font-size: 12px;
+            color: #9ca3af;
+        }
+
+        /* Zona de mensajes */
+        .chat-messages {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* Mensajes de ejemplo */
+        .message-bubble {
+            max-width: 60%;
+            padding: 12px 16px;
+            border-radius: 16px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .message-received {
+            align-self: flex-start;
+            background-color: #232730;
+            color: #ffffff;
+            border-bottom-left-radius: 4px;
+            border: 1px solid #2e333f;
+        }
+
+        .message-sent {
+            align-self: flex-end;
+            background-color: #ffffff;
+            color: #16181d;
+            font-weight: 500;
+            border-bottom-right-radius: 4px;
+        }
+
+        /* Formulario para escribir mensaje */
+        .chat-input-area {
+            padding: 18px 24px;
+            border-top: 1px solid #23262d;
+            background-color: #1a1d24;
+        }
+
+        .chat-form {
+            display: flex;
+            gap: 12px;
+        }
+
+        .chat-input {
+            flex: 1;
+            background-color: #16181d;
+            border: 1px solid #282c35;
+            border-radius: 12px;
+            padding: 12px 16px;
+            color: #ffffff;
+            font-family: inherit;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .chat-input:focus {
+            border-color: #4b5563;
+        }
+
+        .btn-send {
+            background-color: #ffffff;
+            color: #16181d;
+            border: none;
+            border-radius: 12px;
+            padding: 0 20px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+
+        .btn-send:hover {
+            background-color: #f3f4f6;
+            transform: translateY(-1px);
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .chat-layout {
+                flex-direction: column;
+                height: auto;
+                overflow: visible;
+            }
+            .chats-sidebar {
+                width: 100%;
+                height: 300px;
+            }
+            body {
+                overflow: auto;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 1. PANEL SUPERIOR -->
+    <header class="top-panel">
+        <a href="/app" class="logo">Mil y un coches.</a>
+
+        <div class="user-menu">
+            @if($user)
+                <!-- Botón Chat activo -->
+                <a href="{{ url('/app/chat') }}" class="btn-chat" title="Mensajes">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="icon-chat">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a.75.75 0 0 1-1.006-.994c.3-.615.65-1.282.883-1.892A8.21 8.21 0 0 1 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z" />
+                    </svg>
+                </a>
+
+                <!-- Botón Vender -->
+                <a href="{{ url('/app/vender') }}" class="btn-vender">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="icon-vender">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                    </svg>
+                    Vender
+                </a>
+
+                <div class="user-welcome">
+                    Bienvenido, <span>{{ $user->name }}</span>
+                </div>
+
+                <a href="{{ url('/app/user/' . $user->id) }}">
+                    <div class="user-avatar-container">
+                        @if($user->profile_image)
+                            <img src="https://poronftkafxcbnvvsxco.supabase.co/storage/v1/object/public/perfil/{{ $user->profile_image }}" alt="Foto de {{ $user->name }}" class="user-avatar">
+                        @else
+                            <div class="user-avatar-default">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                                </svg>
+                            </div>
+                        @endif
+                    </div>
+                </a>
+            @endif
+        </div>
+    </header>
+
+    <!-- 2. ESTRUCTURA DEL CHAT -->
+    <main class="chat-layout">
+
+        <!-- PANEL IZQUIERDO: LISTA DE CONVERSACIONES -->
+        <aside class="chats-sidebar">
+            <div class="chats-header">
+                <h2>Tus Mensajes</h2>
+                <p>Aquí irán los chats que tienes abiertos con compradores y vendedores.</p>
+            </div>
+
+            <div class="chats-list">
+                
+                <!-- Chat 1 de ejemplo (Activo) -->
+                <a href="#" class="chat-item active">
+                    <div class="chat-item-avatar">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                        </svg>
+                    </div>
+                    <div class="chat-item-info">
+                        <div class="chat-item-title">Vendedor (BMW M3)</div>
+                        <div class="chat-item-preview">Aquí irá el último mensaje recibido...</div>
+                    </div>
+                </a>
+
+                <!-- Chat 2 de ejemplo -->
+                <a href="#" class="chat-item">
+                    <div class="chat-item-avatar">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                        </svg>
+                    </div>
+                    <div class="chat-item-info">
+                        <div class="chat-item-title">Comprador interesado</div>
+                        <div class="chat-item-preview">¿Sigue estando disponible el coche?</div>
+                    </div>
+                </a>
+
+            </div>
+        </aside>
+
+        <!-- PANEL DERECHO: ÁREA DE CONVERSACIÓN -->
+        <section class="chat-main">
+            
+            <!-- Encabezado del chat activo -->
+            <div class="chat-main-header">
+                <div class="user-avatar-container">
+                    <div class="user-avatar-default">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                        </svg>
+                    </div>
+                </div>
+                <div>
+                    <h3>Chat sobre el coche seleccionado</h3>
+                    <p>Aquí se cargará la información del usuario con el que estés hablando.</p>
+                </div>
+            </div>
+
+            <!-- Burbujas de mensajes -->
+            <div class="chat-messages">
+                <div class="message-bubble message-received">
+                    ¡Hola! Aquí irán apareciendo los mensajes que te envíen los otros usuarios.
+                </div>
+
+                <div class="message-bubble message-sent">
+                    Y aquí irán los mensajes que escribas tú en la conversación.
+                </div>
+            </div>
+
+            <!-- Entrada de texto -->
+            <div class="chat-input-area">
+                <form class="chat-form" action="#" method="POST" onsubmit="event.preventDefault();">
+                    <input type="text" class="chat-input" placeholder="Aquí escribirás tu mensaje para enviar..." autocomplete="off">
+                    <button type="submit" class="btn-send">Enviar</button>
+                </form>
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>

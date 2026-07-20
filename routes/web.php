@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AnuncioController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CrearAnuncioController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PerfilController;
@@ -44,4 +45,7 @@ Route::post('/app/crearAnuncio', [CrearAnuncioController::class, 'crearAnuncio']
 
 // Actualizar foto de perfil
 Route::post('/app/user/profile-image', [PerfilController::class, 'updateProfileImage']);
+
+//Ruta para acceder a los mensajes 
+Route::get('/app/chat', [ChatController::class, 'showChat']);
 

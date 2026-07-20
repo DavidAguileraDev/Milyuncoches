@@ -78,17 +78,52 @@
             /* Espacio entre el texto de bienvenida y la foto */
         }
 
-        /* Ajuste al texto de bienvenida */
-        .user-welcome {
-            font-size: 15px;
-            font-weight: 500;
+        /* Botón de Chat en el Panel Superior */
+        .btn-chat {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 35px;
+            height: 33px;
+            background-color: #1a1d24;
             color: #9ca3af;
+            border: 1px solid #23262d;
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            position: relative;
         }
 
-        .user-welcome span {
+        .btn-chat:hover {
+            background-color: #232730;
             color: #ffffff;
-            font-weight: 700;
+            border-color: #2e333f;
+            transform: translateY(-1px);
         }
+
+        .btn-chat:active {
+            transform: translateY(1px);
+        }
+
+        .icon-chat {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Indicador o badge de mensajes no leídos (opcional) */
+        .chat-badge {
+            position: absolute;
+            top: -3px;
+            right: -3px;
+            width: 10px;
+            height: 10px;
+            background-color: #ef4444;
+            /* Rojo para alertas */
+            border: 2px solid #16181d;
+            border-radius: 50%;
+        }
+
+       
 
         /* Estilos del Botón Vender */
         .btn-vender {
@@ -122,6 +157,18 @@
         .icon-vender {
             width: 16px;
             height: 16px;
+        }
+
+        /* Ajuste al texto de bienvenida */
+        .user-welcome {
+            font-size: 15px;
+            font-weight: 500;
+            color: #9ca3af;
+        }
+
+        .user-welcome span {
+            color: #ffffff;
+            font-weight: 700;
         }
 
         /* Contenedor de la imagen (mantiene las dimensiones rígidas) */
@@ -591,24 +638,23 @@
 
         <div class="user-menu">
 
-            <!-- Botón Vender con lógica de sesión -->
             @if($user)
+            <!-- Botón de Chat (Solo para usuarios autenticados) -->
+            <a href="{{ url('/app/chat') }}" class="btn-chat" title="Mensajes y Chats">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="icon-chat">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a.75.75 0 0 1-1.006-.994c.3-.615.65-1.282.883-1.892A8.21 8.21 0 0 1 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z" />
+                </svg>
+                <!-- Punto indicador (opcional si hay mensajes nuevos) -->
+                <!-- <span class="chat-badge"></span> -->
+            </a>
+
+            <!-- Botón Vender -->
             <a href="{{ url('/app/vender') }}" class="btn-vender">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="icon-vender">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>
                 Vender
             </a>
-            @else
-            <a href="{{ url('/login') }}" class="btn-vender">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="icon-vender">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                </svg>
-                Vender
-            </a>
-            @endif
-
-            @if($user)
 
             <div class="user-welcome">
                 Bienvenido, <span>{{ $user->name }}</span>
@@ -616,33 +662,28 @@
 
             <a href="{{ url('/app/user/' . $user->id) }}">
                 <div class="user-avatar-container">
-
                     @if($user->profile_image)
-
                     <img src="https://poronftkafxcbnvvsxco.supabase.co/storage/v1/object/public/perfil/{{ $user->profile_image }}"
                         alt="Foto de {{ $user->name }}"
                         class="user-avatar">
-
                     @else
-
                     <div class="user-avatar-default">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor">
-                            <path stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
                         </svg>
                     </div>
-
                     @endif
-
                 </div>
             </a>
 
             @else
+
+            <a href="{{ url('/login') }}" class="btn-vender">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="icon-vender">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>
+                Vender
+            </a>
 
             <div class="user-welcome">
                 Bienvenido, <span>Invitado</span>
@@ -650,19 +691,11 @@
 
             <a href="{{ url('/login') }}">
                 <div class="user-avatar-container">
-
                     <div class="user-avatar-default">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor">
-                            <path stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
                         </svg>
                     </div>
-
                 </div>
             </a>
 
@@ -795,10 +828,10 @@
                             <span class="anuncio-autor">
                                 Publicado por <strong>{{ $anuncio->nombre_usuario }}</strong>
                             </span>
-                            
+
                             <!-- Miniatura del perfil del vendedor -->
                             <div class="anuncio-autor-avatar">
-                                @if($anuncio->foto_vendedor) 
+                                @if($anuncio->foto_vendedor)
                                 <img src="https://poronftkafxcbnvvsxco.supabase.co/storage/v1/object/public/perfil/{{ $anuncio->foto_vendedor }}"
                                     alt="Foto de {{ $anuncio->nombre_usuario }}"
                                     class="autor-avatar-img">

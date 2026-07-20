@@ -19,7 +19,7 @@
             box-sizing: border-box;
         }
 
-        /* Panel Superior */
+        /* Panel Superior Estandarizado */
         .top-panel {
             width: 100%;
             height: 70px;
@@ -30,6 +30,8 @@
             padding: 0 40px;
             box-sizing: border-box;
             border-bottom: 1px solid #23262d;
+            position: relative;
+            z-index: 100;
         }
 
         .logo {
@@ -40,11 +42,55 @@
             text-decoration: none;
         }
 
-        /* Contenedor Perfil de Usuario */
         .user-menu {
             display: flex;
             align-items: center;
             gap: 14px;
+        }
+
+        .btn-chat {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: #1a1d24;
+            color: #9ca3af;
+            border: 1px solid #23262d;
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn-chat:hover {
+            background-color: #232730;
+            color: #ffffff;
+            border-color: #2e333f;
+            transform: translateY(-1px);
+        }
+
+        .btn-vender {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background-color: #ffffff;
+            color: #16181d;
+            text-decoration: none;
+            padding: 8px 18px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+
+        .btn-vender:hover {
+            background-color: #f3f4f6;
+            transform: translateY(-1px);
+        }
+
+        .icon-vender, .icon-chat {
+            width: 18px;
+            height: 18px;
         }
 
         .user-welcome {
@@ -183,7 +229,7 @@
             font-size: 15px;
             line-height: 1.7;
             margin: 0;
-            white-space: pre-line; /* Mantiene los saltos de línea de la descripción */
+            white-space: pre-line;
         }
 
         /* Panel Lateral (Derecho) */
@@ -283,14 +329,30 @@
 
 <body>
 
-    <!-- MENÚ SUPERIOR -->
+    <!-- MENÚ SUPERIOR ESTANDARIZADO -->
     <header class="top-panel">
         <a href="/app" class="logo">Mil y un coches.</a>
         <div class="user-menu">
             @if($user)
+                <!-- Botón de Chat -->
+                <a href="{{ url('/app/chat') }}" class="btn-chat" title="Mensajes">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="icon-chat">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a.75.75 0 0 1-1.006-.994c.3-.615.65-1.282.883-1.892A8.21 8.21 0 0 1 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z" />
+                    </svg>
+                </a>
+
+                <!-- Botón Vender -->
+                <a href="{{ url('/app/vender') }}" class="btn-vender">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="icon-vender">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                    </svg>
+                    Vender
+                </a>
+
                 <div class="user-welcome">
                     Bienvenido, <span>{{ $user->name }}</span>
                 </div>
+
                 <a href="{{ url('/app/user/' . $user->id) }}">
                     <div class="user-avatar-container">
                         @if($user->profile_image)
@@ -305,9 +367,18 @@
                     </div>
                 </a>
             @else
+                <!-- Botón Vender (Invitado) -->
+                <a href="{{ url('/login') }}" class="btn-vender">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="icon-vender">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                    </svg>
+                    Vender
+                </a>
+
                 <div class="user-welcome">
                     Bienvenido, <span>Invitado</span>
                 </div>
+
                 <a href="{{ url('/login') }}">
                     <div class="user-avatar-container">
                         <div class="user-avatar-default">
@@ -368,7 +439,7 @@
             </div>
 
             <div class="quick-specs">
-                <!-- Ubicación combinada basada en tu lógica de Provincia/Ciudad -->
+                <!-- Ubicación combinada basada en la lógica de Provincia/Ciudad -->
                 <div class="spec-row">
                     <span class="spec-label">Ubicación</span>
                     <span class="spec-value">{{ $anuncio->ciudad }}, {{ $anuncio->provincia }}</span>
@@ -391,7 +462,6 @@
                 </div>
                 <div class="spec-row">
                     <span class="spec-label">Estado</span>
-                    <!-- Condición dinámica por si en el futuro manejas "Reservado" o "Vendido" -->
                     <span class="spec-value" style="color: {{ $anuncio->estado === 'Disponible' ? '#10b981' : '#ef4444' }};">
                         {{ $anuncio->estado }}
                     </span>
@@ -399,7 +469,7 @@
             </div>
 
             <!-- Botón de Acción -->
-            <a href="mailto:?subject=Interés en tu {{ $anuncio->marca }} {{ $anuncio->modelo }} - Milyuncoches" class="btn-contact">
+            <a href="{{ url('/app/chat') }}" class="btn-contact">
                 Contactar con vendedor
             </a>
         </aside>
