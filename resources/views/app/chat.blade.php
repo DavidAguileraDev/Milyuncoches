@@ -427,7 +427,7 @@
             <a href="{{ url('/app/user/' . $user->id) }}">
                 <div class="user-avatar-container">
                     @if($user->profile_image)
-                    <img src="https://poronftkafxcbnvvsxco.supabase.co/storage/v1/object/public/perfil/{{ $user->profile_image }}" alt="Foto de {{ $user->name }}" class="user-avatar">
+                    <img src="{{ $user->profile_image }}" alt="Foto de {{ $user->name }}" class="user-avatar">
                     @else
                     <div class="user-avatar-default">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -467,7 +467,7 @@
                     <div class="chat-item-avatar">
 
                         @if($otroUsuario->profile_image)
-                        <img src="https://poronftkafxcbnvvsxco.supabase.co/storage/v1/object/public/perfil/{{ $otroUsuario->profile_image }}"
+                        <img src="{{ $otroUsuario->profile_image }}"
                             alt="{{ $otroUsuario->name }}"
                             class="user-avatar">
                         @else
@@ -523,7 +523,7 @@
 
                 <div class="user-avatar-container">
                     @if($otroUsuario->profile_image)
-                    <img src="https://poronftkafxcbnvvsxco.supabase.co/storage/v1/object/public/perfil/{{ $otroUsuario->profile_image }}" alt="{{ $otroUsuario->name }}" class="user-avatar">
+                    <img src="{{ $otroUsuario->profile_image }}" alt="{{ $otroUsuario->name }}" class="user-avatar">
                     @else
                     <div class="user-avatar-default">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">

@@ -17,18 +17,26 @@ class PerfilController extends Controller
         $user = Auth::user();
 
         // Eliminar la imagen anterior
-        if ($user->profile_image && Storage::disk('s3')->exists($user->profile_image)) {
-            Storage::disk('s3')->delete($user->profile_image);
+        if ($user->profile_image) {
+
+            $oldPath = str_replace(
+                'https://poronftkafxcbnvvsxco.supabase.co/storage/v1/object/public/perfil/',
+                '',
+                $user->profile_image
+            );
+
+            if (Storage::disk('s3')->exists($oldPath)) {
+                Storage::disk('s3')->delete($oldPath);
+            }
         }
 
         // Subir la nueva imagen
         $path = Storage::disk('s3')->putFile('avatars', $request->file('avatar'));
 
-        // Guardar la ruta
-        $user->profile_image = $path;
+        // Guardar la URL completa
+        $user->profile_image = 'https://poronftkafxcbnvvsxco.supabase.co/storage/v1/object/public/perfil/' . $path;
         $user->save();
 
-        // FORZAR LA ACTUALIZACIÓN DEL USUARIO EN LA SESIÓN ACTIVA
         auth()->setUser($user);
 
         return back()->with('success', 'Foto actualizada correctamente.');

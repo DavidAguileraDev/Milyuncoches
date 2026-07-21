@@ -305,7 +305,7 @@
 
                     @if($user->profile_image)
 
-                    <img src="https://poronftkafxcbnvvsxco.supabase.co/storage/v1/object/public/perfil/{{ $user->profile_image }}"
+                    <img src="{{ $user->profile_image }}"
                         alt="Foto de {{ $user->name }}"
                         class="user-avatar">
 

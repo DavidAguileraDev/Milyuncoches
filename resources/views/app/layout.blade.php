@@ -663,7 +663,7 @@
             <a href="{{ url('/app/user/' . $user->id) }}">
                 <div class="user-avatar-container">
                     @if($user->profile_image)
-                    <img src="https://poronftkafxcbnvvsxco.supabase.co/storage/v1/object/public/perfil/{{ $user->profile_image }}"
+                    <img src="{{ $user->profile_image }}"
                         alt="Foto de {{ $user->name }}"
                         class="user-avatar">
                     @else
@@ -832,7 +832,7 @@
                             <!-- Miniatura del perfil del vendedor -->
                             <div class="anuncio-autor-avatar">
                                 @if($anuncio->foto_vendedor)
-                                <img src="https://poronftkafxcbnvvsxco.supabase.co/storage/v1/object/public/perfil/{{ $anuncio->foto_vendedor }}"
+                                <img src="{{ $anuncio->foto_vendedor }}"
                                     alt="Foto de {{ $anuncio->nombre_usuario }}"
                                     class="autor-avatar-img">
                                 @else

@@ -353,7 +353,7 @@ use Illuminate\Support\Facades\Storage;
             <div class="large-avatar-container">
                 @if($user->profile_image)
                 <!-- URL dinámica limpia desde S3/Supabase -->
-                <img src="https://poronftkafxcbnvvsxco.supabase.co/storage/v1/object/public/perfil/{{ $user->profile_image }}"
+                <img src="{{ $user->profile_image }}"
                     alt="Foto de {{ $user->name }}"
                     class="large-avatar">
                 @else
