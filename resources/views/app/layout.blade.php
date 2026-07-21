@@ -23,7 +23,7 @@
             /* CAPA DE CONTRASTE OSCURA + LA IMAGEN (Ruta corregida para Laravel) */
             background-image:
                 linear-gradient(to bottom, rgba(13, 14, 18, 0.75) 0%, rgba(13, 14, 18, 0.9) 100%),
-                url('https://poronftkafxcbnvvsxco.supabase.co/storage/v1/object/public/anuncios/fondo-main-view.png');
+                url('https://poronftkafxcbnvvsxco.supabase.co/storage/v1/object/public/fotos_pagina_disenio/fondo-main-view.png');
 
             background-size: cover;
             background-position: center;
@@ -123,7 +123,7 @@
             border-radius: 50%;
         }
 
-       
+
 
         /* Estilos del Botón Vender */
         .btn-vender {
