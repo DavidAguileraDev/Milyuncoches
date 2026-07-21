@@ -503,7 +503,17 @@
 
                         <div class="chat-item-preview">
                             @if($chat->mensajes->isNotEmpty())
-                            {{ Str::limit($chat->mensajes->last()->mensaje, 35) }}
+
+                                @if($chat->mensajes->last()->user_id == $user->id)
+                                
+                                Tu:{{ Str::limit($chat->mensajes->last()->mensaje, 35) }}
+                            
+                                @else
+
+                                {{ Str::limit($chat->mensajes->last()->mensaje, 35) }}
+
+                                @endif
+                            
                             @else
                             Aún no hay mensajes.
                             @endif
@@ -585,7 +595,7 @@
 
 
                 @forelse($chatSeleccionado->mensajes as $mensaje)
-                
+
                 @if($ultimoMensaje === null || $ultimoMensaje->created_at->diffInHours($mensaje->created_at) >= 1)
                 <h3 class="fecha-creacion">
                     {{ $mensaje->created_at->format('d/m/Y H:i') }}
