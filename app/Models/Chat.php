@@ -3,33 +3,26 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Nette\Schema\Message;
 
 class Chat extends Model
 {
     protected $fillable = [
-        'anuncio_id',
-        'comprador_id',
-        'vendedor_id',
+        'user1_id',
+        'user2_id',
     ];
 
-    public function anuncio()
+    public function user1()
     {
-        return $this->belongsTo(Anuncio::class);
+        return $this->belongsTo(User::class, 'user1_id');
     }
 
-    public function comprador()
+    public function user2()
     {
-        return $this->belongsTo(User::class, 'comprador_id');
+        return $this->belongsTo(User::class, 'user2_id');
     }
 
-    public function vendedor()
+    public function mensajes()
     {
-        return $this->belongsTo(User::class, 'vendedor_id');
-    }
-
-    public function messages()
-    {
-        return $this->hasMany(Message::class);
+        return $this->hasMany(Mensaje::class);
     }
 }

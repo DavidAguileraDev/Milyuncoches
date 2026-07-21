@@ -52,8 +52,8 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 40px;
-            height: 40px;
+            width: 35px;
+            height: 33px;
             background-color: #1a1d24;
             color: #9ca3af;
             border: 1px solid #23262d;
@@ -88,7 +88,8 @@
             transform: translateY(-1px);
         }
 
-        .icon-vender, .icon-chat {
+        .icon-vender,
+        .icon-chat {
             width: 18px;
             height: 18px;
         }
@@ -319,7 +320,7 @@
             .side-panel {
                 position: static;
             }
-            
+
             .photo-container {
                 height: 320px;
             }
@@ -334,60 +335,60 @@
         <a href="/app" class="logo">Mil y un coches.</a>
         <div class="user-menu">
             @if($user)
-                <!-- Botón de Chat -->
-                <a href="{{ url('/app/chat') }}" class="btn-chat" title="Mensajes">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="icon-chat">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a.75.75 0 0 1-1.006-.994c.3-.615.65-1.282.883-1.892A8.21 8.21 0 0 1 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z" />
-                    </svg>
-                </a>
+            <!-- Botón de Chat -->
+            <a href="{{ url('/app/chat') }}" class="btn-chat" title="Mensajes">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="icon-chat">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a.75.75 0 0 1-1.006-.994c.3-.615.65-1.282.883-1.892A8.21 8.21 0 0 1 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z" />
+                </svg>
+            </a>
 
-                <!-- Botón Vender -->
-                <a href="{{ url('/app/vender') }}" class="btn-vender">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="icon-vender">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                    </svg>
-                    Vender
-                </a>
+            <!-- Botón Vender -->
+            <a href="{{ url('/app/vender') }}" class="btn-vender">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="icon-vender">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>
+                Vender
+            </a>
 
-                <div class="user-welcome">
-                    Bienvenido, <span>{{ $user->name }}</span>
-                </div>
+            <div class="user-welcome">
+                Bienvenido, <span>{{ $user->name }}</span>
+            </div>
 
-                <a href="{{ url('/app/user/' . $user->id) }}">
-                    <div class="user-avatar-container">
-                        @if($user->profile_image)
-                            <img src="https://poronftkafxcbnvvsxco.supabase.co/storage/v1/object/public/perfil/{{ $user->profile_image }}" alt="Foto de {{ $user->name }}" class="user-avatar">
-                        @else
-                            <div class="user-avatar-default">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-                                </svg>
-                            </div>
-                        @endif
+            <a href="{{ url('/app/user/' . $user->id) }}">
+                <div class="user-avatar-container">
+                    @if($user->profile_image)
+                    <img src="https://poronftkafxcbnvvsxco.supabase.co/storage/v1/object/public/perfil/{{ $user->profile_image }}" alt="Foto de {{ $user->name }}" class="user-avatar">
+                    @else
+                    <div class="user-avatar-default">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                        </svg>
                     </div>
-                </a>
+                    @endif
+                </div>
+            </a>
             @else
-                <!-- Botón Vender (Invitado) -->
-                <a href="{{ url('/login') }}" class="btn-vender">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="icon-vender">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                    </svg>
-                    Vender
-                </a>
+            <!-- Botón Vender (Invitado) -->
+            <a href="{{ url('/login') }}" class="btn-vender">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="icon-vender">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>
+                Vender
+            </a>
 
-                <div class="user-welcome">
-                    Bienvenido, <span>Invitado</span>
-                </div>
+            <div class="user-welcome">
+                Bienvenido, <span>Invitado</span>
+            </div>
 
-                <a href="{{ url('/login') }}">
-                    <div class="user-avatar-container">
-                        <div class="user-avatar-default">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-                            </svg>
-                        </div>
+            <a href="{{ url('/login') }}">
+                <div class="user-avatar-container">
+                    <div class="user-avatar-default">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                        </svg>
                     </div>
-                </a>
+                </div>
+            </a>
             @endif
         </div>
     </header>
@@ -397,15 +398,15 @@
 
         <!-- COLUMNA IZQUIERDA: INFORMACIÓN PRINCIPAL -->
         <section class="main-info-panel">
-            
+
             <!-- Comprobamos si tiene foto asignada -->
             <div class="photo-container">
                 @if($anuncio->foto_principal)
-                    <img src="{{ asset('storage/' . $anuncio->foto_principal) }}" alt="{{ $anuncio->marca }} {{ $anuncio->modelo }}" class="photo-main">
+                <img src="{{ asset('storage/' . $anuncio->foto_principal) }}" alt="{{ $anuncio->marca }} {{ $anuncio->modelo }}" class="photo-main">
                 @else
-                    <div class="photo-placeholder">
-                        <span>Sin imagen disponible</span>
-                    </div>
+                <div class="photo-placeholder">
+                    <span>Sin imagen disponible</span>
+                </div>
                 @endif
             </div>
 
@@ -422,13 +423,13 @@
 
             <!-- Descripción del Vendedor -->
             @if($anuncio->descripcion)
-                <h2 class="section-title">Descripción del vendedor</h2>
-                <p class="car-description">{{ $anuncio->descripcion }}</p>
+            <h2 class="section-title">Descripción del vendedor</h2>
+            <p class="car-description">{{ $anuncio->descripcion }}</p>
             @else
-                <h2 class="section-title">Descripción</h2>
-                <p class="car-description" style="font-style: italic; color: #4b5563;">
-                    El vendedor no ha añadido ninguna descripción detallada para este vehículo.
-                </p>
+            <h2 class="section-title">Descripción</h2>
+            <p class="car-description" style="font-style: italic; color: #4b5563;">
+                El vendedor no ha añadido ninguna descripción detallada para este vehículo.
+            </p>
             @endif
         </section>
 
@@ -468,10 +469,12 @@
                 </div>
             </div>
 
+            @if($anuncio->user_id != $user->id)
             <!-- Botón de Acción -->
-            <a href="{{ url('/app/chat') }}" class="btn-contact">
+            <a href="{{ url('/app/chat/create/' . $anuncio->user_id) }}" class="btn-contact">
                 Contactar con vendedor
             </a>
+            @endif
         </aside>
 
     </main>

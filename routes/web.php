@@ -46,6 +46,12 @@ Route::post('/app/crearAnuncio', [CrearAnuncioController::class, 'crearAnuncio']
 // Actualizar foto de perfil
 Route::post('/app/user/profile-image', [PerfilController::class, 'updateProfileImage']);
 
-//Ruta para acceder a los mensajes 
-Route::get('/app/chat', [ChatController::class, 'showChat']);
+// Ruta para acceder a los mensajes 
+Route::get('/app/chat/{id?}', [ChatController::class, 'showChat']);
+
+// Ruta para crear un chat
+Route::get('/app/chat/create/{user}', [ChatController::class, 'createChat']);
+
+// Ruta para crear un mensaje
+Route::post('/app/chat/{id}/send', [ChatController::class, 'createMensaje']);
 

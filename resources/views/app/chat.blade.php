@@ -26,7 +26,8 @@
             background-position: center;
             background-repeat: no-repeat;
             background-attachment: fixed;
-            overflow: hidden; /* Mantiene la pantalla fija para evitar scroll doble en el chat */
+            overflow: hidden;
+            /* Mantiene la pantalla fija para evitar scroll doble en el chat */
         }
 
         /* 1. Panel Superior (Navegación / Header) */
@@ -90,7 +91,8 @@
             transform: translateY(-1px);
         }
 
-        .icon-vender, .icon-chat {
+        .icon-vender,
+        .icon-chat {
             width: 18px;
             height: 18px;
         }
@@ -205,7 +207,8 @@
             transition: all 0.2s ease;
         }
 
-        .chat-item:hover, .chat-item.active {
+        .chat-item:hover,
+        .chat-item.active {
             background-color: #232730;
             border-color: #374151;
             transform: translateX(2px);
@@ -220,6 +223,15 @@
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
+            overflow: hidden; /* Garantiza el recorte circular */
+        }
+
+        /* Ajuste de avatar dentro de la lista lateral */
+        .chat-item-avatar .user-avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
         }
 
         .chat-item-avatar svg {
@@ -371,10 +383,12 @@
                 height: auto;
                 overflow: visible;
             }
+
             .chats-sidebar {
                 width: 100%;
                 height: 300px;
             }
+
             body {
                 overflow: auto;
                 height: auto;
@@ -391,38 +405,38 @@
 
         <div class="user-menu">
             @if($user)
-                <!-- Botón Chat activo -->
-                <a href="{{ url('/app/chat') }}" class="btn-chat" title="Mensajes">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="icon-chat">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a.75.75 0 0 1-1.006-.994c.3-.615.65-1.282.883-1.892A8.21 8.21 0 0 1 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z" />
-                    </svg>
-                </a>
+            <!-- Botón Chat activo -->
+            <a href="{{ url('/app/chat') }}" class="btn-chat" title="Mensajes">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="icon-chat">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a.75.75 0 0 1-1.006-.994c.3-.615.65-1.282.883-1.892A8.21 8.21 0 0 1 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z" />
+                </svg>
+            </a>
 
-                <!-- Botón Vender -->
-                <a href="{{ url('/app/vender') }}" class="btn-vender">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="icon-vender">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                    </svg>
-                    Vender
-                </a>
+            <!-- Botón Vender -->
+            <a href="{{ url('/app/vender') }}" class="btn-vender">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="icon-vender">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>
+                Vender
+            </a>
 
-                <div class="user-welcome">
-                    Bienvenido, <span>{{ $user->name }}</span>
-                </div>
+            <div class="user-welcome">
+                Bienvenido, <span>{{ $user->name }}</span>
+            </div>
 
-                <a href="{{ url('/app/user/' . $user->id) }}">
-                    <div class="user-avatar-container">
-                        @if($user->profile_image)
-                            <img src="https://poronftkafxcbnvvsxco.supabase.co/storage/v1/object/public/perfil/{{ $user->profile_image }}" alt="Foto de {{ $user->name }}" class="user-avatar">
-                        @else
-                            <div class="user-avatar-default">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-                                </svg>
-                            </div>
-                        @endif
+            <a href="{{ url('/app/user/' . $user->id) }}">
+                <div class="user-avatar-container">
+                    @if($user->profile_image)
+                    <img src="https://poronftkafxcbnvvsxco.supabase.co/storage/v1/object/public/perfil/{{ $user->profile_image }}" alt="Foto de {{ $user->name }}" class="user-avatar">
+                    @else
+                    <div class="user-avatar-default">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                        </svg>
                     </div>
-                </a>
+                    @endif
+                </div>
+            </a>
             @endif
         </div>
     </header>
@@ -434,45 +448,98 @@
         <aside class="chats-sidebar">
             <div class="chats-header">
                 <h2>Tus Mensajes</h2>
-                <p>Aquí irán los chats que tienes abiertos con compradores y vendedores.</p>
+                <p>Aquí aparecerán todas tus conversaciones.</p>
             </div>
 
             <div class="chats-list">
-                
-                <!-- Chat 1 de ejemplo (Activo) -->
-                <a href="#" class="chat-item active">
+
+                @forelse($chats as $chat)
+
+                @php
+                $otroUsuario = $chat->user1_id == $user->id
+                ? $chat->user2
+                : $chat->user1;
+                @endphp
+
+                <a href="/app/chat/{{ $chat->id }}"
+                    class="chat-item {{ $chatSeleccionado && $chatSeleccionado->id == $chat->id ? 'active' : '' }}">
+
                     <div class="chat-item-avatar">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-                        </svg>
+
+                        @if($otroUsuario->profile_image)
+                        <img src="https://poronftkafxcbnvvsxco.supabase.co/storage/v1/object/public/perfil/{{ $otroUsuario->profile_image }}"
+                            alt="{{ $otroUsuario->name }}"
+                            class="user-avatar">
+                        @else
+                        <div class="user-avatar-default">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                            </svg>
+                        </div>
+                        @endif
+
                     </div>
+
                     <div class="chat-item-info">
-                        <div class="chat-item-title">Vendedor (BMW M3)</div>
-                        <div class="chat-item-preview">Aquí irá el último mensaje recibido...</div>
+                        <div class="chat-item-title">
+                            {{ $otroUsuario->name }}
+                        </div>
+
+                        <div class="chat-item-preview">
+                            @if($chat->mensajes->isNotEmpty())
+                            {{ Str::limit($chat->mensajes->last()->mensaje, 35) }}
+                            @else
+                            Aún no hay mensajes.
+                            @endif
+                        </div>
                     </div>
+
                 </a>
 
-                <!-- Chat 2 de ejemplo -->
-                <a href="#" class="chat-item">
-                    <div class="chat-item-avatar">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-                        </svg>
-                    </div>
-                    <div class="chat-item-info">
-                        <div class="chat-item-title">Comprador interesado</div>
-                        <div class="chat-item-preview">¿Sigue estando disponible el coche?</div>
-                    </div>
-                </a>
+                @empty
+
+                <div class="chat-item-empty">
+                    Todavía no tienes conversaciones.
+                </div>
+
+                @endforelse
 
             </div>
         </aside>
 
         <!-- PANEL DERECHO: ÁREA DE CONVERSACIÓN -->
         <section class="chat-main">
-            
+
             <!-- Encabezado del chat activo -->
             <div class="chat-main-header">
+
+                @if($chatSeleccionado)
+
+                @php
+                $otroUsuario = $chatSeleccionado->user1_id == $user->id
+                ? $chatSeleccionado->user2
+                : $chatSeleccionado->user1;
+                @endphp
+
+                <div class="user-avatar-container">
+                    @if($otroUsuario->profile_image)
+                    <img src="https://poronftkafxcbnvvsxco.supabase.co/storage/v1/object/public/perfil/{{ $otroUsuario->profile_image }}" alt="{{ $otroUsuario->name }}" class="user-avatar">
+                    @else
+                    <div class="user-avatar-default">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                        </svg>
+                    </div>
+                    @endif
+                </div>
+
+                <div>
+                    <h3>{{ $otroUsuario->name }}</h3>
+                    <p>Conversación con {{ $otroUsuario->name }}</p>
+                </div>
+
+                @else
+
                 <div class="user-avatar-container">
                     <div class="user-avatar-default">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -480,30 +547,65 @@
                         </svg>
                     </div>
                 </div>
+
                 <div>
-                    <h3>Chat sobre el coche seleccionado</h3>
-                    <p>Aquí se cargará la información del usuario con el que estés hablando.</p>
+                    <h3>Ningún chat seleccionado</h3>
+                    <p>Selecciona una conversación para empezar a chatear.</p>
                 </div>
+
+                @endif
+
             </div>
 
             <!-- Burbujas de mensajes -->
             <div class="chat-messages">
-                <div class="message-bubble message-received">
-                    ¡Hola! Aquí irán apareciendo los mensajes que te envíen los otros usuarios.
+
+                @if($chatSeleccionado)
+
+                @forelse($chatSeleccionado->mensajes as $mensaje)
+
+                <div class="message-bubble {{ $mensaje->user_id == $user->id ? 'message-sent' : 'message-received' }}">
+                    {{ $mensaje->mensaje }}
                 </div>
 
-                <div class="message-bubble message-sent">
-                    Y aquí irán los mensajes que escribas tú en la conversación.
-                </div>
+                @empty
+
+                <p>Aún no hay mensajes en esta conversación.</p>
+
+                @endforelse
+
+                @else
+
+                <h1>Todavía no has iniciado una conversación con alguien</h1>
+
+                @endif
+
             </div>
 
             <!-- Entrada de texto -->
+
+            @if($chatSeleccionado)
+
             <div class="chat-input-area">
-                <form class="chat-form" action="#" method="POST" onsubmit="event.preventDefault();">
-                    <input type="text" class="chat-input" placeholder="Aquí escribirás tu mensaje para enviar..." autocomplete="off">
-                    <button type="submit" class="btn-send">Enviar</button>
+                <form class="chat-form" action="/app/chat/{{ $chatSeleccionado->id }}/send" method="POST">
+
+                    @csrf
+
+                    <input
+                        type="text"
+                        name="mensaje"
+                        class="chat-input"
+                        placeholder="Aquí escribirás tu mensaje para enviar..."
+                        autocomplete="off"
+                        required>
+
+                    <button type="submit" class="btn-send">
+                        Enviar
+                    </button>
+
                 </form>
             </div>
+            @endif
 
         </section>
 
