@@ -23,6 +23,7 @@ class Chat extends Model
 
     public function mensajes()
     {
-        return $this->hasMany(Mensaje::class);
+        return $this->hasMany(Mensaje::class)
+            ->orderBy('created_at', 'asc');
     }
 }

@@ -22,7 +22,7 @@ class ChatController extends Controller
         } else {
             $chatSeleccionado = Chat::with('mensajes.user')->find(optional($chats->first())->id);
         }
-
+    
         return view('app.chat', compact('user', 'chats', 'chatSeleccionado'));
     }
 

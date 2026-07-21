@@ -63,8 +63,8 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 40px;
-            height: 40px;
+            width: 35px;
+            height: 33px;
             background-color: #232730;
             color: #ffffff;
             border: 1px solid #2e333f;
@@ -223,7 +223,8 @@
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
-            overflow: hidden; /* Garantiza el recorte circular */
+            overflow: hidden;
+            /* Garantiza el recorte circular */
         }
 
         /* Ajuste de avatar dentro de la lista lateral */
@@ -303,6 +304,21 @@
             display: flex;
             flex-direction: column;
             gap: 16px;
+        }
+
+        /* Estilo mejorado y centrado para la fecha del chat */
+        .fecha-creacion {
+            align-self: center;
+            background-color: #232730;
+            color: #9ca3af;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            padding: 4px 14px;
+            border-radius: 20px;
+            border: 1px solid #2e333f;
+            margin: 8px 0 16px 0;
+            text-transform: uppercase;
         }
 
         /* Mensajes de ejemplo */
@@ -562,11 +578,27 @@
 
                 @if($chatSeleccionado)
 
+                @php
+                $ultimoMensaje = null;
+                @endphp
+
+
+
                 @forelse($chatSeleccionado->mensajes as $mensaje)
+                
+                @if($ultimoMensaje === null || $ultimoMensaje->created_at->diffInHours($mensaje->created_at) >= 1)
+                <h3 class="fecha-creacion">
+                    {{ $mensaje->created_at->format('d/m/Y H:i') }}
+                </h3>
+                @endif
 
                 <div class="message-bubble {{ $mensaje->user_id == $user->id ? 'message-sent' : 'message-received' }}">
                     {{ $mensaje->mensaje }}
                 </div>
+
+                @php
+                $ultimoMensaje = $mensaje;
+                @endphp
 
                 @empty
 
