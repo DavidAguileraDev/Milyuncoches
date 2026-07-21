@@ -22,7 +22,7 @@ class ChatController extends Controller
         } else {
             $chatSeleccionado = Chat::with('mensajes.user')->find(optional($chats->first())->id);
         }
-    
+
         return view('app.chat', compact('user', 'chats', 'chatSeleccionado'));
     }
 
@@ -31,14 +31,22 @@ class ChatController extends Controller
         $user1 = min(Auth::id(), $userId);
         $user2 = max(Auth::id(), $userId);
 
-        Chat::firstOrCreate([
-            'user1_id' => $user1,
-            'user2_id' => $user2,
-        ]);
+        // Buscar si ya existe el chat
+        $chat = Chat::where('user1_id', $user1)
+            ->where('user2_id', $user2)
+            ->first();
 
-        return redirect('/app/chat');
+        // Si no existe, lo creamos
+        if (!$chat) {
+            $chat = Chat::create([
+                'user1_id' => $user1,
+                'user2_id' => $user2,
+            ]);
+        }
+
+        // Siempre acabamos abriendo el chat
+        return redirect('/app/chat/' . $chat->id);
     }
-
     public function createMensaje($id, Request $request)
     {
 
