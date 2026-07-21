@@ -25,13 +25,13 @@ class PerfilController extends Controller
                 $user->profile_image
             );
 
-            if (Storage::disk('s3')->exists($oldPath)) {
-                Storage::disk('s3')->delete($oldPath);
+            if (Storage::disk('perfil')->exists($oldPath)) {
+                Storage::disk('perfil')->delete($oldPath);
             }
         }
 
         // Subir la nueva imagen
-        $path = Storage::disk('s3')->putFile('avatars', $request->file('avatar'));
+        $path = Storage::disk('perfil')->putFile('avatars', $request->file('avatar'));
 
         // Guardar la URL completa
         $user->profile_image = 'https://poronftkafxcbnvvsxco.supabase.co/storage/v1/object/public/perfil/' . $path;

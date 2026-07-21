@@ -469,11 +469,19 @@
                 </div>
             </div>
 
-            @if($anuncio->user_id != $user->id)
+            @if($user)
             <!-- Botón de Acción -->
             <a href="{{ url('/app/chat/create/' . $anuncio->user_id) }}" class="btn-contact">
                 Contactar con vendedor 
             </a>
+
+            @else
+
+            <!-- Botón de Acción -->
+            <a href="{{ url('/login') }}" class="btn-contact">
+                Contactar con vendedor 
+            </a>
+
             @endif
         </aside>
 

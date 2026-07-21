@@ -321,13 +321,43 @@
             text-transform: uppercase;
         }
 
-        /* Mensajes de ejemplo */
+        /* Modificación de la burbuja para posicionar elementos y dar espacio a la hora */
         .message-bubble {
-            max-width: 60%;
-            padding: 12px 16px;
+            max-width: 65%;
+            padding: 10px 14px 8px 14px;
             border-radius: 16px;
             font-size: 14px;
-            line-height: 1.5;
+            line-height: 1.4;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            word-break: break-word;
+        }
+
+        /* Alineación e integración del texto */
+        .message-text {
+            margin-bottom: 2px;
+        }
+
+        /* Estilos de la hora */
+        .message-time {
+            font-size: 10px;
+            align-self: flex-end;
+            margin-top: 2px;
+            margin-bottom: -2px;
+            user-select: none;
+            line-height: 1;
+        }
+
+        /* Colores de la hora según el tipo de mensaje */
+        .message-received .message-time {
+            color: #9ca3af;
+            /* Gris claro para fondo oscuro */
+        }
+
+        .message-sent .message-time {
+            color: #6b7280;
+            /* Gris medio para fondo blanco */
         }
 
         .message-received {
@@ -504,16 +534,16 @@
                         <div class="chat-item-preview">
                             @if($chat->mensajes->isNotEmpty())
 
-                                @if($chat->mensajes->last()->user_id == $user->id)
-                                
-                                Tu:{{ Str::limit($chat->mensajes->last()->mensaje, 35) }}
-                            
-                                @else
+                            @if($chat->mensajes->last()->user_id == $user->id)
 
-                                {{ Str::limit($chat->mensajes->last()->mensaje, 35) }}
+                            Tu:{{ Str::limit($chat->mensajes->last()->mensaje, 35) }}
 
-                                @endif
-                            
+                            @else
+
+                            {{ Str::limit($chat->mensajes->last()->mensaje, 35) }}
+
+                            @endif
+
                             @else
                             Aún no hay mensajes.
                             @endif
@@ -603,7 +633,8 @@
                 @endif
 
                 <div class="message-bubble {{ $mensaje->user_id == $user->id ? 'message-sent' : 'message-received' }}">
-                    {{ $mensaje->mensaje }}
+                    <span class="message-text">{{ $mensaje->mensaje }}</span>
+                    <span class="message-time">{{ $mensaje->created_at->format('H:i') }}</span>
                 </div>
 
                 @php
