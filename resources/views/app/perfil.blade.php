@@ -410,13 +410,17 @@ use Illuminate\Support\Facades\Storage;
                     <div class="form-row">
                         <div class="form-group">
                             <label for="password">Nueva Contraseña</label>
-                            <input type="password" name="password" id="password" class="profile-input" placeholder="••••••••">
+                            <input type="password" name="password" id="password" class="profile-input" placeholder="••••••••" >
 
                             @error('password')
                             <p class="error">{{ $message }}</p>
                             @enderror
 
-                            @error('repeated_password')
+                            @error('password_repeated')
+                            <p class="error">{{ $message }}</p>
+                            @enderror
+
+                            @error('password_empty')
                             <p class="error">{{ $message }}</p>
                             @enderror
 
@@ -427,7 +431,7 @@ use Illuminate\Support\Facades\Storage;
 
                         <div class="form-group">
                             <label for="password_confirmation">Confirmar Contraseña</label>
-                            <input type="password" name="password_confirmation" id="password_confirmation" class="profile-input" placeholder="••••••••">
+                            <input type="password" name="password_confirmation" id="password_confirmation" class="profile-input" placeholder="••••••••" >
                         </div>
                     </div>
 

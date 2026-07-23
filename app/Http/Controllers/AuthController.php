@@ -169,7 +169,13 @@ class AuthController extends Controller
         if (Hash::check($password, $user->password)) {
 
             return back()
-                ->withErrors(['repeated_password' => 'Debes utilizar otra contraseña distinta a la que ya tienes'])
+                ->withErrors(['password_repeated' => 'Debes utilizar otra contraseña distinta a la que ya tienes'])
+                ->withInput();
+        }
+
+        if(!$password || !$password_confimation){
+            return back()
+                ->withErrors(['password_empty' => 'El campo contraseña no puede estar vacío'])
                 ->withInput();
         }
 
