@@ -416,7 +416,7 @@ use Illuminate\Support\Facades\Storage;
                             <span class="error">{{ $message }}</span>
                             @enderror
 
-                            @if(session('success'))
+                            @if(session('success') && session('success') !== 'Foto actualizada correctamente.')
                             <div class="success">
                                 {{ session('success') }}
                             </div>
