@@ -10,21 +10,23 @@ use Illuminate\Support\Facades\Auth;
 class ChatController extends Controller
 {
     public function showChat($id = null)
-    {
-        $user = Auth::user();
+{
+    $user = Auth::user();
 
-        $chats = Chat::where('user1_id', $user->id)
-            ->orWhere('user2_id', $user->id)
-            ->get();
+    $chats = Chat::where('user1_id', $user->id)
+        ->orWhere('user2_id', $user->id)
+        ->withMax('mensajes', 'created_at')
+        ->orderByDesc('mensajes_max_created_at')
+        ->get();
 
-        if ($id) {
-            $chatSeleccionado = Chat::with('mensajes.user')->find($id);
-        } else {
-            $chatSeleccionado = Chat::with('mensajes.user')->find(optional($chats->first())->id);
-        }
-
-        return view('app.chat', compact('user', 'chats', 'chatSeleccionado'));
+    if ($id) {
+        $chatSeleccionado = Chat::with('mensajes.user')->find($id);
+    } else {
+        $chatSeleccionado = Chat::with('mensajes.user')->find(optional($chats->first())->id);
     }
+
+    return view('app.chat', compact('user', 'chats', 'chatSeleccionado'));
+}
 
     public function createChat($userId)
     {

@@ -28,8 +28,17 @@ Route::get('/app', [AuthController::class, 'showApp']);
 // redirigir al perfil
 Route::get('/app/user/{id}', [AuthController::class, 'showPerfil']);
 
+// redirigir a la configuración del perfil
+Route::get('/app/user/{id}/config', [AuthController::class, 'configPerfil']);
+
 // Ruta para cambiar contraseña
 Route::post('/app/changePassword', [AuthController::class, 'changePassword']);
+
+// Actualizar foto de perfil
+Route::post('/app/user/profile-image', [PerfilController::class, 'updateProfileImage']);
+
+// Actualizar nombre de usuario
+Route::post('/app/user/update-name', [AuthController::class, 'changeUser']);
 
 // Ruta para cerrar sesión
 Route::post('/logout', [AuthController::class, 'logout']);
@@ -38,13 +47,13 @@ Route::post('/logout', [AuthController::class, 'logout']);
 Route::get('/app/anuncio/{id}', [AnuncioController::class, 'showAnuncio']);
 
 // Ruta para crear un anuncio
-Route::get('/app/vender', [CrearAnuncioController::class, 'showCrearAnuncio']);
+Route::get('/app/vender', [AnuncioController::class, 'showCrearAnuncio']);
 
 // Ruta para crear un anuncio
-Route::post('/app/crearAnuncio', [CrearAnuncioController::class, 'crearAnuncio']);
+Route::post('/app/crearAnuncio', [AnuncioController::class, 'crearAnuncio']);
 
-// Actualizar foto de perfil
-Route::post('/app/user/profile-image', [PerfilController::class, 'updateProfileImage']);
+// Ruta para eliminar un anuncio
+Route::post('/app/eliminarAnuncio/{id}', [AnuncioController::class, 'eliminarAnuncio']);
 
 // Ruta para acceder a los mensajes 
 Route::get('/app/chat/{id?}', [ChatController::class, 'showChat']);
@@ -54,4 +63,6 @@ Route::get('/app/chat/create/{user}', [ChatController::class, 'createChat']);
 
 // Ruta para crear un mensaje
 Route::post('/app/chat/{id}/send', [ChatController::class, 'createMensaje']);
+
+
 

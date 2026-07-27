@@ -147,7 +147,20 @@ class AuthController extends Controller
 
         $user = Auth::user();
 
-        return view('app.perfil', compact('user'));
+        $anuncios = Anuncio::where('user_id', $user->id)
+            ->latest()
+            ->get();
+
+        return view('app.perfil', compact('user', 'anuncios'));
+    }
+
+    // Funcion para retornar la vista de la configuración del usuario
+    public function configPerfil()
+    {
+
+        $user = Auth::user();
+
+        return view('app.configPerfil', compact('user'));
     }
 
     public function changePassword(Request $request)
@@ -173,7 +186,7 @@ class AuthController extends Controller
                 ->withInput();
         }
 
-        if(!$password || !$password_confimation){
+        if (!$password || !$password_confimation) {
             return back()
                 ->withErrors(['password_empty' => 'El campo contraseña no puede estar vacío'])
                 ->withInput();
@@ -184,11 +197,34 @@ class AuthController extends Controller
 
         // Guardamos los cambios en la base de datos
 
-        
+
         $user->save();
 
 
 
         return back()->with('success', 'Contraseña actualizada correctamente.');
+    }
+
+    public function changeUser(Request $request)
+    {
+        $user = Auth::user();
+
+        $request->validate([
+            'name' => 'required|string|min:3|max:50',
+        ]);
+
+        // Comprobamos si realmente ha cambiado
+        if ($request->name === $user->name) {
+            return back()->withErrors([
+                'name' => 'El nuevo nombre es igual al actual.'
+            ]);
+        }
+
+        $user->name = $request->name;
+        $user->save();
+
+        auth()->setUser($user);
+
+        return back()->with('success', 'Nombre actualizado correctamente.');
     }
 }
