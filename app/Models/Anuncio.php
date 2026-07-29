@@ -50,4 +50,10 @@ class Anuncio extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function imagenes()
+    {
+        return $this->hasMany(ImagenesCoches::class)
+            ->orderBy('orden');
+    }
 }

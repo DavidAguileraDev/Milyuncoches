@@ -401,202 +401,285 @@
             border-color: #ef4444;
         }
 
-        /* 3. Panel Central (Anuncios de coches) */
+        /* 3 ESTILOS DEL PANEL Y TARJETAS DE ANUNCIOS */
         .center-panel {
-            flex: 1;
-            /* Ocupa todo el espacio restante automáticamente */
-            background-color: #16181d;
-            border-radius: 20px;
-            padding: 25px;
-            box-sizing: border-box;
-            border: 1px solid #23262d;
-
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-                box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .center-panel:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Contenedor Grid que organiza las tarjetas */
-        .menu-anuncios {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
             width: 100%;
         }
 
-        .anuncio-link {
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 24px;
+        }
+
+        .panel-header h2 {
+            font-size: 24px;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .anuncios-count {
+            font-size: 13px;
+            color: #8e8e93;
+            font-weight: 500;
+        }
+
+        .menu-anuncios {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .anuncio-card-link {
             text-decoration: none;
             color: inherit;
             display: block;
         }
 
-        /* Tarjeta minimalista de Anuncio */
         .anuncio-card {
-            background-color: #1a1d24;
-            /* Un tono ligeramente más claro que el contenedor central para crear capas */
-            border: 1px solid #282c35;
-            border-radius: 16px;
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-                box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-                border-color 0.3s ease;
+            background-color: #16181d;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 18px;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
         }
 
-
-        /* Efecto de elevación interactivo */
         .anuncio-card:hover {
-            transform: translateY(-5px);
-            border-color: #4b5563;
-            /* El borde se ilumina sutilmente */
+            transform: translateY(-3px);
+            border-color: rgba(255, 255, 255, 0.2);
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
         }
 
-        /* Encabezado del anuncio */
-        .anuncio-header {
+        /* FOTO PRINCIPAL Y BADGES */
+        .anuncio-media {
+            position: relative;
+            width: 280px;
+            height: 220px;
+            min-height: 220px;
+            max-height: 220px;
+            background-color: #0d0e11;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .anuncio-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+
+        .anuncio-img-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #555;
+            gap: 8px;
+        }
+
+        .anuncio-img-placeholder svg {
+            width: 40px;
+            height: 40px;
+        }
+
+        .anuncio-badge-precio {
+            position: absolute;
+            bottom: 12px;
+            left: 12px;
+            background: rgba(11, 12, 16, 0.85);
+            backdrop-filter: blur(8px);
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 18px;
+            padding: 6px 14px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        /* CONTENIDO */
+        .anuncio-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .anuncio-top {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 14px;
-            gap: 10px;
+            gap: 12px;
+            margin-bottom: 12px;
         }
 
-        .anuncio-header h2 {
-            font-size: 18px;
-            font-weight: 700;
-            color: #ffffff;
-            margin: 0;
-            line-height: 1.2;
-            letter-spacing: -0.3px;
-        }
-
-        .anuncio-header h2 span {
-            font-weight: 400;
-            color: #9ca3af;
-            /* Modelo en un tono más suave */
-        }
-
-        /* Precio destacado en blanco puro */
-        .anuncio-precio {
-            font-size: 16px;
+        .anuncio-titulo {
+            font-size: 20px;
             font-weight: 800;
             color: #ffffff;
+            margin: 0;
+        }
+
+        .anuncio-modelo {
+            color: #a3a3a3;
+            font-weight: 600;
+        }
+
+        .anuncio-location {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 13px;
+            color: #999;
             white-space: nowrap;
         }
 
-        /* Contenedor de Etiquetas técnicas (Badges) */
-        .anuncio-specs {
+        .anuncio-location svg {
+            width: 14px;
+            height: 14px;
+            color: #a3a3a3;
+        }
+
+        /* ESPECIFICACIONES */
+        .anuncio-specs-grid {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
         }
 
-        .spec-badge {
+        .spec-item {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            background-color: #232730;
-            color: #9ca3af;
+            background-color: #0b0c10;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 6px 12px;
+            border-radius: 8px;
             font-size: 12px;
             font-weight: 600;
-            padding: 6px 12px;
-            border-radius: 20px;
-            border: 1px solid #2e333f;
+            color: #d1d1d1;
         }
 
-        .spec-badge svg {
-            color: #9ca3af;
+        .spec-item svg {
+            width: 14px;
+            height: 14px;
+            color: #a3a3a3;
         }
 
-        /* Descripción del coche */
         .anuncio-descripcion {
-            font-size: 13.5px;
-            color: #9ca3af;
+            font-size: 13px;
+            color: #8e8e93;
             line-height: 1.5;
-            margin: 0 0 20px 0;
+            margin-bottom: 16px;
         }
 
-        /* Pie de la tarjeta */
+        /* FOOTER TARJETA */
         .anuncio-footer {
-            border-top: 1px solid #232730;
-            padding-top: 14px;
-            margin-top: auto;
             display: flex;
             justify-content: space-between;
-            /* Empuja el avatar a la derecha del todo */
             align-items: center;
-            /* Centra verticalmente el texto con la foto */
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 12px;
+            margin-top: auto;
         }
 
-        .anuncio-autor {
-            font-size: 12px;
-            color: #6b7280;
+        .anuncio-vendedor {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .anuncio-autor strong {
-            color: #9ca3af;
-        }
-
-        /* Contenedor circular de la miniatura del autor */
-        .anuncio-autor-avatar {
+        .autor-avatar-wrapper {
             width: 28px;
             height: 28px;
             border-radius: 50%;
             overflow: hidden;
+            background-color: #22252d;
             display: flex;
-            justify-content: center;
             align-items: center;
-            background-color: #232730;
-            border: 1px solid #2e333f;
-            flex-shrink: 0;
-            /* Evita que el contenedor se comprima si el texto es largo */
+            justify-content: center;
         }
 
-        /* La imagen real dentro del círculo */
         .autor-avatar-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        /* Icono SVG por defecto en miniatura */
-        .anuncio-autor-avatar svg {
+        .autor-avatar-wrapper svg {
+            width: 16px;
+            height: 16px;
+            color: #8e8e93;
+        }
+
+        .vendedor-nombre {
+            font-size: 13px;
+            color: #aaa;
+            font-weight: 500;
+        }
+
+        .btn-ver-mas {
+            font-size: 13px;
+            font-weight: 700;
+            color: #ffffff;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: gap 0.2s ease;
+        }
+
+        .btn-ver-mas svg {
             width: 14px;
             height: 14px;
-            color: #6b7280;
         }
 
-        .anuncio-autor {
-            font-size: 12px;
-            color: #6b7280;
+        .anuncio-card:hover .btn-ver-mas {
+            gap: 10px;
         }
 
-        .anuncio-autor strong {
-            color: #9ca3af;
-        }
-
-        /* Estilo para cuando no hay anuncios */
+        /* NO ANUNCIOS STATE */
         .no-anuncios {
             text-align: center;
-            padding: 40px 20px;
+            padding: 60px 20px;
+            background-color: #16181d;
+            border-radius: 20px;
+            border: 1px dashed rgba(255, 255, 255, 0.1);
         }
 
-        .no-anuncios h2 {
-            font-size: 20px;
-            color: #ffffff;
-            margin-bottom: 10px;
+        .no-anuncios-icon {
+            width: 48px;
+            height: 48px;
+            color: #555;
+            margin-bottom: 12px;
+        }
+
+        .no-anuncios h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 6px;
         }
 
         .no-anuncios p {
-            color: #6b7280;
-            margin: 0;
+            color: #777;
+            font-size: 14px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .anuncio-card {
+                grid-template-columns: 1fr;
+            }
+
+            .anuncio-media {
+                height: 200px;
+            }
         }
 
 
@@ -786,74 +869,131 @@
 
         <!-- 3. PANEL CENTRAL (ANUNCIOS) -->
         <section class="center-panel">
-            <h2>Anuncios Recientes</h2>
-            <p>Aquí se cargarán de forma dinámica las tarjetas con las fotos, precios y detalles de cada uno de los coches disponibles en la plataforma.</p>
+            <div class="panel-header">
+                <h2>Anuncios Recientes</h2>
+                <span class="anuncios-count">{{ $anuncios->count() }} vehículos encontrados</span>
+            </div>
 
             @if($anuncios->isNotEmpty())
             <div class="menu-anuncios">
                 @foreach ($anuncios as $anuncio)
+                <a href="{{ url('/app/anuncio/' . $anuncio->id) }}" class="anuncio-card-link">
+                    <article class="anuncio-card">
 
-                <a href="{{ url('/app/anuncio/' . $anuncio->id) }}" class="anuncio-link">
-                    <div class="anuncio-card">
-                        <div class="anuncio-header">
-                            <h2>{{ $anuncio->marca }} <span>{{ $anuncio->modelo }}</span></h2>
-                            <div class="anuncio-precio">
+                        <!-- CONTENEDOR FOTO PRINCIPAL -->
+                        <div class="anuncio-media">
+                            @if(!empty($anuncio->foto_principal))
+                            <img src="{{ $anuncio->foto_principal }}"
+                                alt="{{ $anuncio->marca }} {{ $anuncio->modelo }}"
+                                class="anuncio-img"
+                                loading="lazy">
+                            @else
+                            <!-- Placeholder si el anuncio no tiene fotos -->
+                            <div class="anuncio-img-placeholder">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                                </svg>
+                                <span>Sin foto</span>
+                            </div>
+                            @endif
+
+                            <div class="anuncio-badge-precio">
                                 {{ number_format($anuncio->precio, 0, ',', '.') }} €
                             </div>
                         </div>
 
-                        <!-- Etiquetas de especificaciones técnicas -->
-                        <div class="anuncio-specs">
-                            <span class="spec-badge">
+                        <!-- CONTENIDO DEL ANUNCIO -->
+                        <div class="anuncio-content">
 
-                                {{ $anuncio->combustible }}
-                            </span>
-                            <span class="spec-badge">
-
-                                {{ $anuncio->transmision }}
-                            </span>
-                            <span class="spec-badge">
-
-                                {{ $anuncio->anio }}
-                            </span>
-                        </div>
-
-                        @if($anuncio->descripcion)
-                        <p class="anuncio-descripcion">
-                            {{ Str::limit($anuncio->descripcion, 100, '...') }}
-                        </p>
-                        @endif
-
-                        <div class="anuncio-footer">
-                            <span class="anuncio-autor">
-                                Publicado por <strong>{{ $anuncio->nombre_usuario }}</strong>
-                            </span>
-
-                            <!-- Miniatura del perfil del vendedor -->
-                            <div class="anuncio-autor-avatar">
-                                @if($anuncio->foto_vendedor)
-                                <img src="{{ $anuncio->foto_vendedor }}"
-                                    alt="Foto de {{ $anuncio->nombre_usuario }}"
-                                    class="autor-avatar-img">
-                                @else
-                                <!-- SVG por defecto en miniatura si el vendedor no tiene foto -->
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-                                </svg>
+                            <div class="anuncio-top">
+                                <h3 class="anuncio-titulo">
+                                    {{ $anuncio->marca }} <span class="anuncio-modelo">{{ $anuncio->modelo }}</span>
+                                </h3>
+                                @if($anuncio->ciudad)
+                                <span class="anuncio-location">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                                    </svg>
+                                    {{ $anuncio->ciudad }}
+                                </span>
                                 @endif
                             </div>
+
+                            <!-- ETIQUETAS DE ESPECIFICACIONES -->
+                            <div class="anuncio-specs-grid">
+                                <div class="spec-item" title="Año">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
+                                    </svg>
+                                    <span>{{ $anuncio->anio }}</span>
+                                </div>
+
+                                <div class="spec-item" title="Kilómetros">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                    </svg>
+                                    <span>{{ number_format($anuncio->kilometros ?? 0, 0, ',', '.') }} km</span>
+                                </div>
+
+                                <div class="spec-item" title="Combustible">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.362 5.214A8.252 8.252 0 0 1 12 21 8.25 8.25 0 0 1 6.038 7.047 8.287 8.287 0 0 1 9 3.603e-5a1 1 0 0 1 1.2 1.2c-.3 1.5.3 3.3 1.8 4.2 1.5.9 2.7 1.8 3.362-.214Z" />
+                                    </svg>
+                                    <span>{{ $anuncio->combustible }}</span>
+                                </div>
+
+                                <div class="spec-item" title="Transmisión">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 18H7.5M3.75 12h16.5" />
+                                    </svg>
+                                    <span>{{ $anuncio->transmision }}</span>
+                                </div>
+                            </div>
+
+                            @if($anuncio->descripcion)
+                            <p class="anuncio-descripcion">
+                                {{ Str::limit($anuncio->descripcion, 90, '...') }}
+                            </p>
+                            @endif
+
+                            <!-- FOOTER TARJETA -->
+                            <div class="anuncio-footer">
+                                <div class="anuncio-vendedor">
+                                    <div class="autor-avatar-wrapper">
+                                        @if($anuncio->foto_vendedor)
+                                        <img src="{{ $anuncio->foto_vendedor }}" alt="{{ $anuncio->nombre_usuario }}" class="autor-avatar-img">
+                                        @else
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                                        </svg>
+                                        @endif
+                                    </div>
+                                    <span class="vendedor-nombre">{{ $anuncio->nombre_usuario }}</span>
+                                </div>
+
+                                <span class="btn-ver-mas">
+                                    Ver detalle
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                                    </svg>
+                                </span>
+                            </div>
+
                         </div>
-                    </div>
+                    </article>
                 </a>
                 @endforeach
             </div>
             @else
             <div class="no-anuncios">
-                <h2>No hay anuncios disponibles en este momento.</h2>
-                <p>¡Vuelve a pasarte más tarde o publica el tuyo!</p>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="no-anuncios-icon">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+                </svg>
+                <h3>No hay vehículos disponibles</h3>
+                <p>Prueba a cambiar los filtros de búsqueda o sé el primero en publicar uno.</p>
             </div>
             @endif
-
         </section>
 
     </main>

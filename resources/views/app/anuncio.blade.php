@@ -159,22 +159,95 @@
 
         /* Contenedor de la Imagen Principal */
         .photo-container {
+            position: relative;
             width: 100%;
             height: 450px;
-            background-color: #1a1d24;
-            border-radius: 16px;
-            border: 1px solid #2e333f;
+            /* Definimos la altura aquí para que la mantenga con o sin imagen */
             overflow: hidden;
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            border-radius: 18px;
+            background-color: #1a1d24;
+            /* Fondo por defecto */
         }
 
         .photo-main {
             width: 100%;
             height: 100%;
+            /* Ocupa el 100% de los 450px del contenedor */
             object-fit: cover;
+            display: block;
+        }
+
+        /* Estilos para la caja de sustitución cuando no hay imagen */
+        .photo-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            background-color: #1a1d24;
+            border: 2px dashed #23262d;
+            border-radius: 18px;
+            color: #6b7280;
+            font-size: 15px;
+            font-weight: 600;
+            box-sizing: border-box;
+        }
+
+        .photo-placeholder svg {
+            width: 48px;
+            height: 48px;
+            color: #374151;
+        }
+
+        .photo-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 42px;
+            height: 42px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, .45);
+            color: white;
+            font-size: 22px;
+            cursor: pointer;
+            transition: .2s;
+            z-index: 5;
+        }
+
+        .photo-btn:hover {
+            background: rgba(0, 0, 0, .75);
+        }
+
+        .photo-prev {
+            left: 15px;
+        }
+
+        .photo-next {
+            right: 15px;
+        }
+
+        .photo-dots {
+            position: absolute;
+            bottom: 15px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .photo-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .4);
+            transition: .2s;
+        }
+
+        .photo-dot.active {
+            background: white;
         }
 
         .photo-placeholder {
@@ -187,7 +260,7 @@
         .car-title {
             font-size: 36px;
             font-weight: 800;
-            margin: 0 0 15px 0;
+            margin: 15px 0 15px 0;
             letter-spacing: -1px;
         }
 
@@ -401,13 +474,39 @@
 
             <!-- Comprobamos si tiene foto asignada -->
             <div class="photo-container">
-                @if($anuncio->foto_principal)
-                <img src="{{ asset('storage/' . $anuncio->foto_principal) }}" alt="{{ $anuncio->marca }} {{ $anuncio->modelo }}" class="photo-main">
+
+                @if($anuncio->imagenes->isNotEmpty())
+
+                <img
+                    id="main-photo"
+                    src="{{ $anuncio->imagenes->first()->ruta }}"
+                    alt="{{ $anuncio->marca }} {{ $anuncio->modelo }}"
+                    class="photo-main">
+
+                <button class="photo-btn photo-prev" type="button">
+                    &#10094;
+                </button>
+
+                <button class="photo-btn photo-next" type="button">
+                    &#10095;
+                </button>
+
+                <div class="photo-dots">
+
+                    @foreach($anuncio->imagenes as $imagen)
+                    <span class="photo-dot {{ $loop->first ? 'active' : '' }}"></span>
+                    @endforeach
+
+                </div>
+
                 @else
+
                 <div class="photo-placeholder">
                     <span>Sin imagen disponible</span>
                 </div>
+
                 @endif
+
             </div>
 
             <h1 class="car-title">{{ $anuncio->marca }} <span>{{ $anuncio->modelo }}</span></h1>
@@ -469,17 +568,17 @@
                 </div>
             </div>
 
-            @if($user)
+            @if($user && $user->id != $anuncio->user_id)
             <!-- Botón de Acción -->
             <a href="{{ url('/app/chat/create/' . $anuncio->user_id) }}" class="btn-contact">
-                Contactar con vendedor 
+                Contactar con vendedor
             </a>
 
-            @else
+            @elseif($user->id != $anuncio->user_id)
 
             <!-- Botón de Acción -->
             <a href="{{ url('/login') }}" class="btn-contact">
-                Contactar con vendedor 
+                Contactar con vendedor
             </a>
 
             @endif
@@ -488,5 +587,50 @@
     </main>
 
 </body>
+<script>
+    const fotos = [
+        @foreach($anuncio -> imagenes as $imagen)
+        "{{ $imagen->ruta }}",
+        @endforeach
+    ];
+
+    let indice = 0;
+
+    const imagen = document.getElementById("main-photo");
+    const dots = document.querySelectorAll(".photo-dot");
+
+    function actualizar() {
+
+        imagen.src = fotos[indice];
+
+        dots.forEach(dot => dot.classList.remove("active"));
+
+        dots[indice].classList.add("active");
+    }
+
+    document.querySelector(".photo-next")?.addEventListener("click", () => {
+
+        indice++;
+
+        if (indice >= fotos.length) {
+            indice = 0;
+        }
+
+        actualizar();
+
+    });
+
+    document.querySelector(".photo-prev")?.addEventListener("click", () => {
+
+        indice--;
+
+        if (indice < 0) {
+            indice = fotos.length - 1;
+        }
+
+        actualizar();
+
+    });
+</script>
 
 </html>

@@ -338,16 +338,17 @@
             text-decoration: none;
             color: inherit;
             display: block;
+            height: 100%;
         }
 
         .anuncio-card {
             background-color: #1a1d24;
             border: 1px solid #282c35;
             border-radius: 16px;
-            padding: 24px;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            height: 100%;
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
         }
 
@@ -357,16 +358,67 @@
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
         }
 
+        /* Contenedor e Imagen Principal del Anuncio */
+        .anuncio-image-wrapper {
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+            background-color: #121418;
+            position: relative;
+        }
+
+        .anuncio-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .anuncio-card:hover .anuncio-img {
+            transform: scale(1.05);
+        }
+
+        .anuncio-image-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #4b5563;
+            gap: 6px;
+            background-color: #14161b;
+        }
+
+        .anuncio-image-placeholder svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .anuncio-image-placeholder span {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .anuncio-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
         .anuncio-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
             gap: 10px;
         }
 
         .anuncio-header h2 {
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 700;
             color: #ffffff;
             margin: 0;
@@ -389,8 +441,8 @@
         .anuncio-specs {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 16px;
+            gap: 6px;
+            margin-bottom: 14px;
         }
 
         .spec-badge {
@@ -399,23 +451,23 @@
             gap: 6px;
             background-color: #232730;
             color: #9ca3af;
-            font-size: 12px;
+            font-size: 11.5px;
             font-weight: 600;
-            padding: 6px 12px;
+            padding: 4px 10px;
             border-radius: 20px;
             border: 1px solid #2e333f;
         }
 
         .anuncio-descripcion {
-            font-size: 13.5px;
+            font-size: 13px;
             color: #9ca3af;
             line-height: 1.5;
-            margin: 0 0 20px 0;
+            margin: 0 0 16px 0;
         }
 
         .anuncio-footer {
             border-top: 1px solid #232730;
-            padding-top: 14px;
+            padding-top: 12px;
             margin-top: auto;
             display: flex;
             justify-content: space-between;
@@ -744,64 +796,83 @@
                 <div class="anuncio-card-container">
                     <a href="{{ url('/app/anuncio/' . $anuncio->id) }}" class="anuncio-link">
                         <div class="anuncio-card">
-                            <div class="anuncio-header">
-                                <h2>{{ $anuncio->marca }} <span>{{ $anuncio->modelo }}</span></h2>
-                                <div class="anuncio-precio">
-                                    {{ number_format($anuncio->precio, 0, ',', '.') }} €
-                                </div>
-                            </div>
-
-                            <!-- Especificaciones técnicas -->
-                            <div class="anuncio-specs">
-                                @if($anuncio->combustible)
-                                <span class="spec-badge">{{ $anuncio->combustible }}</span>
-                                @endif
-                                @if($anuncio->transmision)
-                                <span class="spec-badge">{{ $anuncio->transmision }}</span>
-                                @endif
-                                @if($anuncio->anio)
-                                <span class="spec-badge">{{ $anuncio->anio }}</span>
-                                @endif
-                            </div>
-
-                            @if($anuncio->descripcion)
-                            <p class="anuncio-descripcion">
-                                {{ Str::limit($anuncio->descripcion, 100, '...') }}
-                            </p>
-                            @endif
-
-                            <div class="anuncio-footer">
-                                <span class="anuncio-autor">
-                                    Publicado por <strong>{{ $user->name }}</strong>
-                                </span>
-
-                                <div class="anuncio-footer-right">
-                                    <!-- Botón de Eliminar (Llama al modal personalizado) -->
-                                    @if(Auth::id() === $user->id)
-                                    <form id="delete-form-{{ $anuncio->id }}" action="{{ url('/app/eliminarAnuncio/' . $anuncio->id) }}" method="POST" class="delete-form">
-                                        @csrf
-                                        <button type="button"
-                                            class="btn-delete-anuncio"
-                                            title="Eliminar anuncio"
-                                            onclick="event.stopPropagation(); event.preventDefault(); openDeleteModal({{ $anuncio->id }}, '{{ addslashes($anuncio->marca) }} {{ addslashes($anuncio->modelo) }}')">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                                            </svg>
-                                        </button>
-                                    </form>
-                                    @endif
-
-                                    <div class="anuncio-autor-avatar">
-                                        @if($user->profile_image)
-                                        <img src="{{ $user->profile_image }}" alt="Foto de {{ $user->name }}" class="autor-avatar-img">
-                                        @else
+                            
+                            <!-- Foto principal del anuncio -->
+                            <div class="anuncio-image-wrapper">
+                                @if($anuncio->foto_principal)
+                                    <img src="{{ $anuncio->foto_principal }}" alt="{{ $anuncio->marca }} {{ $anuncio->modelo }}" class="anuncio-img">
+                                @else
+                                    <div class="anuncio-image-placeholder">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V6.75Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
                                         </svg>
+                                        <span>Sin Imagen</span>
+                                    </div>
+                                @endif
+                            </div>
+
+                            <!-- Contenido de la tarjeta -->
+                            <div class="anuncio-content">
+                                <div class="anuncio-header">
+                                    <h2>{{ $anuncio->marca }} <span>{{ $anuncio->modelo }}</span></h2>
+                                    <div class="anuncio-precio">
+                                        {{ number_format($anuncio->precio, 0, ',', '.') }} €
+                                    </div>
+                                </div>
+
+                                <!-- Especificaciones técnicas -->
+                                <div class="anuncio-specs">
+                                    @if($anuncio->combustible)
+                                    <span class="spec-badge">{{ $anuncio->combustible }}</span>
+                                    @endif
+                                    @if($anuncio->transmision)
+                                    <span class="spec-badge">{{ $anuncio->transmision }}</span>
+                                    @endif
+                                    @if($anuncio->anio)
+                                    <span class="spec-badge">{{ $anuncio->anio }}</span>
+                                    @endif
+                                </div>
+
+                                @if($anuncio->descripcion)
+                                <p class="anuncio-descripcion">
+                                    {{ Str::limit($anuncio->descripcion, 90, '...') }}
+                                </p>
+                                @endif
+
+                                <div class="anuncio-footer">
+                                    <span class="anuncio-autor">
+                                        Publicado por <strong>{{ $user->name }}</strong>
+                                    </span>
+
+                                    <div class="anuncio-footer-right">
+                                        <!-- Botón de Eliminar (Llama al modal personalizado) -->
+                                        @if(Auth::id() === $user->id)
+                                        <form id="delete-form-{{ $anuncio->id }}" action="{{ url('/app/eliminarAnuncio/' . $anuncio->id) }}" method="POST" class="delete-form">
+                                            @csrf
+                                            <button type="button"
+                                                class="btn-delete-anuncio"
+                                                title="Eliminar anuncio"
+                                                onclick="event.stopPropagation(); event.preventDefault(); openDeleteModal({{ $anuncio->id }}, '{{ addslashes($anuncio->marca) }} {{ addslashes($anuncio->modelo) }}')">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                                </svg>
+                                            </button>
+                                        </form>
                                         @endif
+
+                                        <div class="anuncio-autor-avatar">
+                                            @if($user->profile_image)
+                                            <img src="{{ $user->profile_image }}" alt="Foto de {{ $user->name }}" class="autor-avatar-img">
+                                            @else
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                                            </svg>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </a>
                 </div>
