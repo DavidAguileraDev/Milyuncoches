@@ -3,7 +3,6 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -12,24 +11,24 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('chats', function (Blueprint $table) {
+        Schema::create('chats', function (Blueprint $table) {
+            $table->id();
 
-            // Añadir anuncio_id (nullable para no romper los chats existentes)
             $table->foreignId('anuncio_id')
-                ->nullable()
-                ->after('id')
                 ->constrained('anuncios')
+                ->onDelete('cascade');
+
+            $table->foreignId('user1_id')
+                ->constrained('users')
                 ->cascadeOnDelete();
 
-            // Eliminar el índice antiguo
-            $table->dropUnique('chats_user1_id_user2_id_unique');
+            $table->foreignId('user2_id')
+                ->constrained('users')
+                ->cascadeOnDelete();
 
-            // Crear el nuevo índice
-            $table->unique([
-                'user1_id',
-                'user2_id',
-                'anuncio_id'
-            ]);
+            $table->timestamps();
+
+            $table->unique(['user1_id', 'user2_id']);
         });
     }
 
@@ -38,16 +37,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('chats', function (Blueprint $table) {
-
-            $table->dropUnique('chats_user1_id_user2_id_anuncio_id_unique');
-
-            $table->dropConstrainedForeignId('anuncio_id');
-
-            $table->unique([
-                'user1_id',
-                'user2_id'
-            ]);
-        });
+        Schema::dropIfExists('chats');
     }
 };
