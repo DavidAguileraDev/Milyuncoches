@@ -28,7 +28,11 @@ return new class extends Migration
 
             $table->timestamps();
 
-            $table->unique(['user1_id', 'user2_id']);
+            $table->unique([
+                'user1_id',
+                'user2_id',
+                'anuncio_id'
+            ]);
         });
     }
 
