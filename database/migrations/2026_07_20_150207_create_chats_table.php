@@ -6,32 +6,37 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Run the migrations.
+     */
     public function up(): void
     {
-        Schema::table('chats', function (Blueprint $table) {
+        Schema::create('chats', function (Blueprint $table) {
+            $table->id();
 
-            // Eliminar el índice único antiguo
-            $table->dropUnique('chats_user1_id_user2_id_unique');
+            $table->foreignId('anuncio_id')
+                ->constrained('anuncios')
+                ->cascadeOnDelete();
 
-            // Crear el nuevo
-            $table->unique([
-                'user1_id',
-                'user2_id',
-                'anuncio_id'
-            ]);
+            $table->foreignId('user1_id')
+                ->constrained('users')
+                ->cascadeOnDelete();
+
+            $table->foreignId('user2_id')
+                ->constrained('users')
+                ->cascadeOnDelete();
+
+            $table->timestamps();
+
+            $table->unique(['user1_id', 'user2_id', 'anuncio_id']);
         });
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
-        Schema::table('chats', function (Blueprint $table) {
-
-            $table->dropUnique('chats_user1_id_user2_id_anuncio_id_unique');
-
-            $table->unique([
-                'user1_id',
-                'user2_id'
-            ]);
-        });
+        Schema::dropIfExists('chats');
     }
 };
