@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Chat extends Model
 {
     protected $fillable = [
+        'anuncio_id',
         'user1_id',
         'user2_id',
     ];
@@ -25,5 +26,10 @@ class Chat extends Model
     {
         return $this->hasMany(Mensaje::class)
             ->orderBy('created_at', 'asc');
+    }
+
+    public function anuncio()
+    {
+        return $this->belongsTo(Anuncio::class);
     }
 }

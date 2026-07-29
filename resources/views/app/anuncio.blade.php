@@ -570,7 +570,7 @@
 
             @if($user && $user->id != $anuncio->user_id)
             <!-- Botón de Acción -->
-            <a href="{{ url('/app/chat/create/' . $anuncio->user_id) }}" class="btn-contact">
+            <a href="{{ url('/app/chat/create/' . $anuncio->id) }}" class="btn-contact">
                 Contactar con vendedor
             </a>
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Anuncio;
 use App\Models\Chat;
 use App\Models\Mensaje;
 use Illuminate\Http\Request;
@@ -10,32 +11,42 @@ use Illuminate\Support\Facades\Auth;
 class ChatController extends Controller
 {
     public function showChat($id = null)
-{
-    $user = Auth::user();
+    {
+        $user = Auth::user();
 
-    $chats = Chat::where('user1_id', $user->id)
-        ->orWhere('user2_id', $user->id)
-        ->withMax('mensajes', 'created_at')
-        ->orderByDesc('mensajes_max_created_at')
-        ->get();
+        $chats = Chat::where('user1_id', $user->id)
+            ->orWhere('user2_id', $user->id)
+            ->with('anuncio')
+            ->withMax('mensajes', 'created_at')
+            ->orderByDesc('mensajes_max_created_at')
+            ->get();
 
-    if ($id) {
-        $chatSeleccionado = Chat::with('mensajes.user')->find($id);
-    } else {
-        $chatSeleccionado = Chat::with('mensajes.user')->find(optional($chats->first())->id);
+        if ($id) {
+            $chatSeleccionado = Chat::with([
+                'mensajes.user',
+                'anuncio'
+            ])->find($id);
+        } else {
+            $chatSeleccionado = Chat::with([
+                'mensajes.user',
+                'anuncio'
+            ])->find(optional($chats->first())->id);
+        }
+
+        return view('app.chat', compact('user', 'chats', 'chatSeleccionado'));
     }
 
-    return view('app.chat', compact('user', 'chats', 'chatSeleccionado'));
-}
-
-    public function createChat($userId)
+    public function createChat($anuncioId)
     {
-        $user1 = min(Auth::id(), $userId);
-        $user2 = max(Auth::id(), $userId);
+        $anuncio = Anuncio::findOrFail($anuncioId);
+
+        $user1 = min(Auth::id(), $anuncio->user_id);
+        $user2 = max(Auth::id(), $anuncio->user_id);
 
         $chat = Chat::firstOrCreate([
             'user1_id' => $user1,
             'user2_id' => $user2,
+            'anuncio_id' => $anuncioId,
         ]);
 
         return redirect('/app/chat/' . $chat->id);

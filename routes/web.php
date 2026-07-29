@@ -55,14 +55,11 @@ Route::post('/app/crearAnuncio', [AnuncioController::class, 'crearAnuncio']);
 // Ruta para eliminar un anuncio
 Route::post('/app/eliminarAnuncio/{id}', [AnuncioController::class, 'eliminarAnuncio']);
 
-// Ruta para acceder a los mensajes 
-Route::get('/app/chat/{id?}', [ChatController::class, 'showChat']);
-
 // Ruta para crear un chat
-Route::get('/app/chat/create/{user}', [ChatController::class, 'createChat']);
+Route::get('/app/chat/create/{anuncioId}', [ChatController::class, 'createChat']);
 
 // Ruta para crear un mensaje
 Route::post('/app/chat/{id}/send', [ChatController::class, 'createMensaje']);
 
-
-
+// Ruta para acceder a los mensajes 
+Route::get('/app/chat/{id?}', [ChatController::class, 'showChat']);

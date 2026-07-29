@@ -505,21 +505,23 @@
                 $otroUsuario = $chat->user1_id == $user->id
                 ? $chat->user2
                 : $chat->user1;
+
+                $anuncio = $chat->anuncio;
                 @endphp
 
-                <a href="/app/chat/{{ $chat->id }}"
+                <a href="{{ url('/app/chat/' . $chat->id) }}"
                     class="chat-item {{ $chatSeleccionado && $chatSeleccionado->id == $chat->id ? 'active' : '' }}">
 
                     <div class="chat-item-avatar">
 
-                        @if($otroUsuario->profile_image)
-                        <img src="{{ $otroUsuario->profile_image }}"
-                            alt="{{ $otroUsuario->name }}"
+                        @if($anuncio->foto_principal)
+                        <img src="{{ $anuncio->foto_principal }}"
+                            alt="{{ $anuncio->marca }} {{ $anuncio->modelo }}"
                             class="user-avatar">
                         @else
                         <div class="user-avatar-default">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 18.75h10.5M7.5 6.75h9m-10.5 6h12" />
                             </svg>
                         </div>
                         @endif
@@ -527,27 +529,33 @@
                     </div>
 
                     <div class="chat-item-info">
+
                         <div class="chat-item-title">
+                            {{ $anuncio->marca }} {{ $anuncio->modelo }}
+                        </div>
+
+                        <div class="chat-item-user" style=" font-size:12px;color:#9ca3af;margin-bottom:4px;">
                             {{ $otroUsuario->name }}
                         </div>
 
                         <div class="chat-item-preview">
+
                             @if($chat->mensajes->isNotEmpty())
 
                             @if($chat->mensajes->last()->user_id == $user->id)
-
-                            Tu:{{ Str::limit($chat->mensajes->last()->mensaje, 35) }}
-
-                            @else
+                            <strong>Tú:</strong>
+                            @endif
 
                             {{ Str::limit($chat->mensajes->last()->mensaje, 35) }}
 
+                            @else
+
+                            Aún no hay mensajes.
+
                             @endif
 
-                            @else
-                            Aún no hay mensajes.
-                            @endif
                         </div>
+
                     </div>
 
                 </a>

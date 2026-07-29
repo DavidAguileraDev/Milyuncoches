@@ -56,4 +56,9 @@ class Anuncio extends Model
         return $this->hasMany(ImagenesCoches::class)
             ->orderBy('orden');
     }
+
+    public function chats()
+    {
+        return $this->hasMany(Chat::class);
+    }
 }
