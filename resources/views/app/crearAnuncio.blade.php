@@ -309,6 +309,16 @@
             cursor: pointer;
             transition: background-color 0.2s ease, transform 0.2s ease;
             backdrop-filter: blur(4px);
+            padding: 0;
+            line-height: 1;
+            font-size: 16px;
+            transform: scale(1.1);
+        }
+
+        .btn-remove-img span {
+            display: block;
+            transform: translateY(-1px);
+            /* corrige el desfase óptico del glyph × */
         }
 
         .btn-remove-img:hover {
@@ -700,9 +710,7 @@
                 }
             });
 
-            // ==========================================
-            // 2. GESTOR DE IMÁGENES REORDENABLES (DRAG & DROP)
-            // ==========================================
+
             // ==========================================
             // 2. GESTOR DE IMÁGENES REORDENABLES (DRAG & DROP CORREGIDO)
             // ==========================================
@@ -807,7 +815,7 @@
                     btnDelete.type = "button";
                     btnDelete.className = "btn-remove-img";
                     btnDelete.title = "Eliminar imagen";
-                    btnDelete.innerHTML = "&times;";
+                    btnDelete.innerHTML = "<span>&times;</span>";
                     btnDelete.onclick = function(evt) {
                         evt.stopPropagation();
                         removeFile(file._tempId);
